@@ -25,14 +25,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const setupFeePriceId = process.env.STRIPE_SETUP_FEE_PRICE_ID;
+
+    const lineItems = [
+      { price: priceIds[plan], quantity: 1 },
+    ];
+
+    // Add setup fee as a separate line item (one-time, charged on first invoice)
+    if (setupFeePriceId) {
+      lineItems.push({
+        price: setupFeePriceId,
+        quantity: 1,
+      });
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
-      line_items: [
-        {
-          price: priceIds[plan],
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       subscription_data: {
         trial_period_days: 7,
         metadata: {

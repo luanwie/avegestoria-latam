@@ -90,7 +90,7 @@ export default function PricesPage() {
               Elige el plan para tu granja
             </h1>
             <p className="text-stone-400 max-w-xl mx-auto mb-2">
-              Los primeros <strong className="text-brand-gold">7 días completamente gratis</strong>. Después, el precio regular del plan.
+              <strong className="text-brand-gold">USD 1.00</strong> hoy + 7 días de prueba. Después, el precio regular del plan.
               Cancela cuando quieras.
             </p>
 
@@ -103,7 +103,7 @@ export default function PricesPage() {
             >
               <Zap className="w-5 h-5 text-brand-gold" />
               <span className="text-sm text-stone-200">
-                <span className="text-brand-gold font-bold">7 días gratis</span> — sin cargos — después{" "}
+                <span className="text-brand-gold font-bold">USD 1.00</span> hoy — <span className="text-brand-gold font-bold">7 días gratis</span> después{" "}
                 <span className="text-brand-gold font-bold">$9.99</span> o <span className="text-brand-gold font-bold">$19.99</span>/mes
               </span>
             </motion.div>
@@ -160,7 +160,7 @@ export default function PricesPage() {
                       : "border border-brand-green hover:border-brand-gold/50 text-stone-300"
                   }`}
                 >
-                  {loading ? "Redirigiendo..." : `Comenzar prueba — 7 días gratis`}
+                  {loading ? "Redirigiendo..." : `Comenzar — USD 1`}
                 </button>
 
                 <div className="mt-4 space-y-2">

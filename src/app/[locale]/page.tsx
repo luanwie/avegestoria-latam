@@ -500,7 +500,7 @@ export default function LandingPage() {
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link href="/es/prices" className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-8 py-3.5 rounded-xl text-base transition-all inline-flex items-center gap-2 shadow-lg shadow-brand-gold/25 group">
-                  Comenzar ahora — 7 días gratis
+                  Comenzar ahora — USD 1
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link href="/es/demo" className="border border-brand-green hover:border-brand-gold/50 text-stone-300 px-8 py-3.5 rounded-xl text-base font-medium transition-all inline-flex items-center gap-2 gold-glow">
