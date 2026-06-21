@@ -155,16 +155,24 @@ export async function GET(request: NextRequest) {
           .filter((l) => l.galponId === g.id)
           .reduce((s, l) => s + l.cantidadAves, 0),
       })),
-      lotes: lotes.map((l) => ({
+      lotes: lotes.map((l) => {
+      const edadSemanas = l.fechaIngreso
+        ? Math.floor(
+            (Date.now() - new Date(l.fechaIngreso).getTime()) /
+              (7 * 24 * 60 * 60 * 1000)
+          )
+        : 0;
+      return {
         id: l.id,
         nombre: l.nombre,
         galpon: l.galpon?.nombre || "",
         raza: l.raza?.nombre || "",
         cantidad: l.cantidadAves,
-        edad: `${l.edadSemanas || 0} sem`,
+        edad: `${edadSemanas} sem`,
         postura: "",
         estado: l.estado || "activo",
-      })),
+      };
+    }),
       chartData,
       actividades: actividades.slice(0, 8),
       resumen: {
