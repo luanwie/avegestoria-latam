@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import { Egg, TrendingUp, DollarSign, Plus, BarChart3, ArrowUpRight, ClipboardList } from "lucide-react";
+import { hubLinks } from "@/components/dashboard/links";
 
 const MOCK_DATA = {
   kpis: {
@@ -39,7 +40,7 @@ export default function DemoPage() {
   const kpis = MOCK_DATA.kpis;
 
   return (
-    <DashboardShell badge="DEMO">
+    <DashboardShell badge="DEMO" links={hubLinks}>
       {/* Quick Actions */}
       <div className="flex flex-wrap gap-2 mb-6">
         {[

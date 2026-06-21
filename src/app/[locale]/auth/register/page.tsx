@@ -41,7 +41,7 @@ export default function RegisterPage() {
         return;
       }
 
-      router.push("/es/auth/login?registered=true");
+      router.push("/es/onboarding");
     } catch {
       setError("Error de conexión. Intenta de nuevo.");
       setLoading(false);
@@ -49,16 +49,17 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-emerald-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-brand-green-deeper flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        <div className="bg-emerald-900/40 border border-emerald-800/40 rounded-2xl p-8">
+        <div className="bg-brand-green/20 border border-brand-green/30 rounded-2xl p-8 backdrop-blur-sm">
           <div className="text-center mb-8">
-            <Link href="/es" className="text-lg font-bold text-teal-300">
-              AveGestoria
+            <Link href="/es" className="inline-flex items-center gap-2 mb-4">
+              <img src="/icon.png" alt="" className="h-10 w-10" />
+              <span className="text-lg font-bold text-brand-gold">AveGestoria</span>
             </Link>
             <h1 className="text-2xl font-bold text-stone-100 mt-4">
               Crear tu cuenta
@@ -128,7 +129,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white py-3 rounded-xl text-sm font-semibold transition-all inline-flex items-center justify-center gap-2"
+              className="w-full bg-brand-gold hover:bg-brand-gold-light disabled:opacity-50 text-brand-green-deeper font-bold py-3 rounded-xl text-sm transition-all inline-flex items-center justify-center gap-2"
             >
               {loading ? (
                 <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -143,7 +144,7 @@ export default function RegisterPage() {
 
           <p className="text-center text-sm text-stone-400 mt-6">
             ¿Ya tienes cuenta?{" "}
-            <Link href="/es/auth/login" className="text-teal-300 hover:text-teal-200 font-medium">
+            <Link href="/es/auth/login" className="text-brand-gold hover:text-brand-gold-light font-medium">
               Inicia sesión
             </Link>
           </p>

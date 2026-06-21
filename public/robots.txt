@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://avegestoria.com/sitemap.xml
+
+# Disallow admin/api paths
+Disallow: /api/
+Disallow: /es/auth/
+Disallow: /es/onboarding/

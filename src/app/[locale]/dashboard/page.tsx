@@ -3,9 +3,13 @@
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import PeriodFilter from "@/components/dashboard/PeriodFilter";
 import DashboardCharts from "@/components/dashboard/DashboardCharts";
+import PredictionsCards from "@/components/dashboard/PredictionsCards";
+import { KPISkeleton, ChartSkeleton } from "@/components/ui/Skeleton";
+import { hubLinks } from "@/components/dashboard/links";
 
 interface KpiData {
   value: string;
@@ -54,6 +58,8 @@ export default function DashboardPage() {
   const searchParams = useSearchParams();
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [predictionData, setPredictionData] = useState<any>(null);
+  const [predictionLoading, setPredictionLoading] = useState(false);
 
   const periodo = searchParams.get("periodo") || "7";
 
@@ -75,10 +81,30 @@ export default function DashboardPage() {
     if (status === "authenticated") fetchData();
   }, [status, fetchData]);
 
+  // Fetch predictions
+  useEffect(() => {
+    if (status === "authenticated") {
+      setPredictionLoading(true);
+      fetch("/api/granja/previsoes")
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.datos) setPredictionData(d);
+        })
+        .catch(() => {})
+        .finally(() => setPredictionLoading(false));
+    }
+  }, [status]);
+
   if (status === "loading" || (status === "authenticated" && loading && !data)) {
     return (
       <div className="min-h-screen bg-emerald-950 flex items-center justify-center">
-        <span className="w-8 h-8 border-2 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin" />
+        <div className="w-full max-w-6xl mx-auto p-4 sm:p-6">
+          <KPISkeleton />
+          <div className="grid lg:grid-cols-2 gap-6 mb-6">
+            <ChartSkeleton />
+            <ChartSkeleton />
+          </div>
+        </div>
       </div>
     );
   }
@@ -91,19 +117,28 @@ export default function DashboardPage() {
   const kpis = data?.kpis;
 
   return (
-    <DashboardShell>
+    <DashboardShell links={hubLinks}>
       {/* Period + QuickActions row */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <PeriodFilter />
         <div className="flex flex-wrap gap-2">
-          {["Registrar Producción", "Nueva Venta", "Nuevo Gasto"].map((label) => (
-            <button
-              key={label}
-              className="inline-flex items-center gap-1.5 bg-emerald-800/30 hover:bg-emerald-700/40 border border-emerald-700/30 px-3 py-2 rounded-lg text-xs text-stone-300 transition-all"
-            >
-              {label}
-            </button>
-          ))}
+          {["Registrar Producción", "Nueva Venta", "Nuevo Gasto"].map((label) => {
+            const href =
+              label === "Registrar Producción"
+                ? "/es/granja/produccion"
+                : label === "Nueva Venta"
+                ? "/es/granja/finanzas/ventas"
+                : "/es/granja/finanzas/gastos";
+            return (
+              <Link
+                key={label}
+                href={href}
+                className="inline-flex items-center gap-1.5 bg-emerald-800/30 hover:bg-emerald-700/40 border border-emerald-700/30 px-3 py-2 rounded-lg text-xs text-stone-300 transition-all"
+              >
+                {label}
+              </Link>
+            );
+          })}
         </div>
       </div>
 
@@ -275,6 +310,14 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+
+      {/* Predictions */}
+      <div className="mt-6">
+        <PredictionsCards
+          data={predictionData}
+          loading={predictionLoading}
+        />
+      </div>
 
       {/* Bienvenida para usuarios sin datos */}
       {(!data || data.galpones.length === 0) && !loading && (

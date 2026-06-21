@@ -1,27 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [registered, setRegistered] = useState(false);
-
-  useEffect(() => {
-    if (searchParams.get("registered")) {
-      setRegistered(true);
-    }
-  }, [searchParams]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -45,16 +37,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-emerald-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-brand-green-deeper flex items-center justify-center px-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        <div className="bg-emerald-900/40 border border-emerald-800/40 rounded-2xl p-8">
+        <div className="bg-brand-green/20 border border-brand-green/30 rounded-2xl p-8 backdrop-blur-sm">
           <div className="text-center mb-8">
-            <Link href="/es" className="text-lg font-bold text-teal-300">
-              AveGestoria
+            <Link href="/es" className="inline-flex items-center gap-2 mb-4">
+              <img src="/icon.png" alt="" className="h-10 w-10" />
+              <span className="text-lg font-bold text-brand-gold">AveGestoria</span>
             </Link>
             <h1 className="text-2xl font-bold text-stone-100 mt-4">
               Entrar
@@ -63,12 +56,6 @@ export default function LoginPage() {
               Accede a tu granja
             </p>
           </div>
-
-          {registered && (
-            <div className="bg-emerald-800/30 border border-emerald-700/30 rounded-xl px-4 py-3 mb-6 text-sm text-emerald-300 text-center">
-              Cuenta creada correctamente. Inicia sesión.
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -81,7 +68,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tu@email.com"
                 required
-                className="w-full bg-emerald-950/60 border border-emerald-700/40 rounded-xl px-4 py-3 text-sm text-stone-100 placeholder:text-stone-500 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full bg-brand-green-deeper/60 border border-brand-green/40 rounded-xl px-4 py-3 text-sm text-stone-100 placeholder:text-stone-500 focus:outline-none focus:border-brand-gold/50 transition-colors"
               />
             </div>
 
@@ -115,7 +102,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white py-3 rounded-xl text-sm font-semibold transition-all inline-flex items-center justify-center gap-2"
+              className="w-full bg-brand-gold hover:bg-brand-gold-light disabled:opacity-50 text-brand-green-deeper font-bold py-3 rounded-xl text-sm transition-all inline-flex items-center justify-center gap-2"
             >
               {loading ? (
                 <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -130,7 +117,7 @@ export default function LoginPage() {
 
           <p className="text-center text-sm text-stone-400 mt-6">
             ¿No tienes cuenta?{" "}
-            <Link href="/es/auth/register" className="text-teal-300 hover:text-teal-200 font-medium">
+            <Link href="/es/auth/register" className="text-brand-gold hover:text-brand-gold-light font-medium">
               Crea una
             </Link>
           </p>

@@ -15,8 +15,8 @@ export function AgroGreenTheme() {
 function MouseGlow() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 100, damping: 30 });
-  const springY = useSpring(mouseY, { stiffness: 100, damping: 30 });
+  const springX = useSpring(mouseX, { stiffness: 80, damping: 25 });
+  const springY = useSpring(mouseY, { stiffness: 80, damping: 25 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -28,23 +28,24 @@ function MouseGlow() {
   }, [mouseX, mouseY]);
 
   return (
-    <motion.div
-      className="pointer-events-none fixed inset-0 z-0"
-      style={{
-        background: useSpring(springX, { stiffness: 50, damping: 20 }).get()
-          ? undefined
-          : undefined,
-      }}
-    >
+    <motion.div className="pointer-events-none fixed inset-0 z-0">
       <motion.div
-        className="absolute h-[600px] w-[600px] rounded-full opacity-[0.08] blur-[120px]"
+        className="absolute h-[500px] w-[500px] rounded-full opacity-[0.06] blur-[100px]"
         style={{
-          background: "radial-gradient(circle, #4ade80, transparent)",
-          left: springX.get() - 300,
-          top: springY.get() - 300,
-          x: springX,
-          y: springY,
+          background: "radial-gradient(circle, #eba61c, transparent)",
+          x: useSpring(springX, { stiffness: 40, damping: 15 }),
+          y: useSpring(springY, { stiffness: 40, damping: 15 }),
         }}
+        initial={{ left: "50%", top: "50%", translateX: "-50%", translateY: "-50%" }}
+      />
+      <motion.div
+        className="absolute h-[400px] w-[400px] rounded-full opacity-[0.04] blur-[80px]"
+        style={{
+          background: "radial-gradient(circle, #28a652, transparent)",
+          x: useSpring(springX, { stiffness: 60, damping: 20 }),
+          y: useSpring(springY, { stiffness: 60, damping: 20 }),
+        }}
+        initial={{ left: "30%", top: "60%", translateX: "-50%", translateY: "-50%" }}
       />
     </motion.div>
   );
@@ -53,8 +54,8 @@ function MouseGlow() {
 function BackgroundBlobs() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      <div className="absolute -left-32 -top-32 h-[500px] w-[500px] animate-pulse rounded-full bg-emerald-900/20 blur-[100px]" />
-      <div className="absolute -bottom-32 -right-32 h-[400px] w-[400px] animate-pulse rounded-full bg-teal-900/20 blur-[80px] delay-1000" />
+      <div className="absolute -left-32 -top-32 h-[500px] w-[500px] animate-pulse rounded-full bg-brand-green/20 blur-[100px]" />
+      <div className="absolute -bottom-32 -right-32 h-[400px] w-[400px] animate-pulse rounded-full bg-brand-gold/10 blur-[80px] delay-1000" />
     </div>
   );
 }

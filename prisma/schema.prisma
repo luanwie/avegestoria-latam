@@ -34,6 +34,7 @@ model User {
   gastos         Gasto[]
   predicciones   Prediccion[]
   producciones   ProduccionDiaria[]
+  chatLogs       ChatLog[]
 }
 
 model Account {
@@ -223,4 +224,15 @@ model Alerta {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("alertas")
+}
+
+model ChatLog {
+  id        String   @id @default(cuid())
+  userId    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("chat_logs")
 }
