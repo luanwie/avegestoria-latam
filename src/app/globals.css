@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-emerald-950: #022c22;
+  --color-emerald-900: #064e3b;
+  --color-emerald-800: #065f46;
+  --color-emerald-700: #047857;
+  --color-emerald-600: #059669;
+  --color-emerald-500: #10b981;
+  --color-emerald-400: #34d399;
+  --color-emerald-300: #6ee7b7;
+
+  --color-teal-50: #f8fbf5;
+  --color-teal-100: #e6f0e6;
+  --color-teal-200: #c4dcc4;
+  --color-teal-300: #9cc09c;
+
+  --color-stone-100: #f5f5f4;
+  --color-stone-200: #e7e5e4;
+  --color-stone-300: #d6d3d1;
+
+  --color-gold-400: #d4a853;
+  --color-gold-500: #c9952e;
+  --color-gold-600: #b07d1a;
+
+  --color-warm: #d97706;
+  --color-ok: #059669;
+  --color-danger: #dc2626;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(6, 78, 59, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(4, 120, 87, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(13, 31, 26, 1) 0%, transparent 50%);
+}
+
+/* Mobile-first text */
+html {
+  font-size: 10px;
+}
+@media (min-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+@media (min-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+}

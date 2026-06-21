@@ -1,0 +1,216 @@
+{
+  "meta": {
+    "title": "AveGestoria — Gestión inteligente para tu granja de ponedoras",
+    "description": "Controla producción, finanzas y rentabilidad de tu granja de gallinas ponedoras desde tu celular. Con IA predictiva y alertas inteligentes."
+  },
+  "nav": {
+    "demo": "Ver Demo",
+    "login": "Entrar",
+    "dashboard": "Dashboard",
+    "register": "Registrar",
+    "produccion": "Producción",
+    "finanzas": "Finanzas",
+    "inventario": "Inventario",
+    "equipo": "Equipo",
+    "informes": "Informes",
+    "salir": "Salir"
+  },
+  "hero": {
+    "headline": "¿Sigues controlando tu granja en papel?",
+    "subheadline": "Descubre cuánto dinero estás perdiendo sin saberlo",
+    "description": "AveGestoria te muestra en tiempo real la rentabilidad de cada lote — desde tu celular. Sin planillas confusas, sin papeles.",
+    "cta": "Probar gratis por 7 días",
+    "social_proof": "Únete a +500 productores que ya transformaron su gestión"
+  },
+  "pain": {
+    "title": "¿Te identificas?",
+    "items": [
+      "No sabes si estás ganando o perdiendo en cada lote",
+      "Tus datos están en papeles y WhatsApp mezclados",
+      "Pierdes horas calculando lo que debería ser automático",
+      "No tienes visibilidad de tu producción en tiempo real"
+    ]
+  },
+  "solution": {
+    "title": "AveGestoria: Tu granja en el bolsillo",
+    "items": {
+      "produccion": {
+        "title": "Control de Producción",
+        "desc": "Registro diario por lote, tasa de postura, gráficos en tiempo real"
+      },
+      "finanzas": {
+        "title": "Gestión Financiera",
+        "desc": "Ingresos, gastos y rentabilidad real por lote"
+      },
+      "ia": {
+        "title": "IA Predictiva",
+        "desc": "Chat inteligente, predicciones, alertas tempranas y análisis de fotos"
+      }
+    }
+  },
+  "features": {
+    "title": "Todo lo que necesitas para gestionar tu granja",
+    "items": [
+      {
+        "icon": "egg",
+        "title": "Control de Producción",
+        "desc": "Registro diario por lote, tasa de postura, gráficos y alertas"
+      },
+      {
+        "icon": "money",
+        "title": "Gestión Financiera",
+        "desc": "Ingresos, gastos, rentabilidad real por lote y reportes"
+      },
+      {
+        "icon": "barn",
+        "title": "Galpones y Lotes",
+        "desc": "Múltiples galpones, razas, edades y desempeño individual"
+      },
+      {
+        "icon": "brain",
+        "title": "IA para tu Granja",
+        "desc": "Chat con datos reales, predicciones y alertas inteligentes"
+      },
+      {
+        "icon": "report",
+        "title": "Informes Profesionales",
+        "desc": "PDF y Excel listos para bancos y contadores"
+      },
+      {
+        "icon": "mobile",
+        "title": "Acceso desde cualquier lugar",
+        "desc": "Celular, tablet o computadora. Datos sincronizados al instante"
+      }
+    ]
+  },
+  "pricing": {
+    "title": "Invierte en el futuro de tu granja",
+    "subtitle": "Empieza a ver resultados en 7 días",
+    "monthly": "Mensual",
+    "yearly": "Anual",
+    "plans": {
+      "esencial": {
+        "name": "Esencial",
+        "description": "Gestión completa para tu granja",
+        "price": "9.99",
+        "features": [
+          "Gestión de lotes y galpones",
+          "Control de producción de huevos",
+          "Gestión financiera completa",
+          "Control de stock e insumos",
+          "Informes PDF y Excel",
+          "Hasta 3 colaboradores"
+        ]
+      },
+      "profesional": {
+        "name": "Profesional",
+        "description": "Todo Esencial + Inteligencia Artificial",
+        "price": "19.99",
+        "features": [
+          "Todo del plan Esencial",
+          "Chat inteligente con IA",
+          "Análisis veterinario por foto",
+          "Predicciones de producción y costos",
+          "Alertas inteligentes por WhatsApp",
+          "Colaboradores ilimitados"
+        ]
+      }
+    },
+    "cta": "Comenzar",
+    "guarantee": "Garantía de 7 días • Cancela cuando quieras"
+  },
+  "testimonials": {
+    "title": "Productores que ya transformaron sus granjas",
+    "items": [
+      {
+        "text": "\"AveGestoria revolucionó mi granja. Aumento del 25% en productividad y ahora sé exactamente mi ganancia por lote.\"",
+        "name": "Carlos M.",
+        "location": "Antioquia, Colombia"
+      },
+      {
+        "text": "\"La IA me alertó de una caída en producción que no había notado. Ahorré miles con la acción rápida.\"",
+        "name": "Ricardo G.",
+        "location": "Santiago, Chile"
+      },
+      {
+        "text": "\"Finalmente puedo controlar producción, costos y ventas en un solo lugar. El control de stock automático es increíble.\"",
+        "name": "María L.",
+        "location": "Buenos Aires, Argentina"
+      }
+    ],
+    "stats": [
+      { "value": "500+", "label": "Productores Activos" },
+      { "value": "30%", "label": "Aumento en Rentabilidad" },
+      { "value": "5h/sem", "label": "Tiempo Ahorrado" }
+    ]
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "items": [
+      {
+        "q": "¿Necesito internet para usar AveGestoria?",
+        "a": "Funciona offline y sincroniza cuando tengas conexión."
+      },
+      {
+        "q": "¿Es difícil de usar?",
+        "a": "Hecho para productores, no para ingenieros. En 5 minutos tienes tu primer lote registrado."
+      },
+      {
+        "q": "¿Puedo probar antes de comprar?",
+        "a": "Sí, 7 días por solo USD 1.00. Sin compromiso."
+      },
+      {
+        "q": "¿Mis datos están seguros?",
+        "a": "Cifrado de extremo a extremo, backups automáticos y servidores seguros."
+      },
+      {
+        "q": "¿Aceptan pagos de mi país?",
+        "a": "Aceptamos tarjetas internacionales vía Stripe. Cubrimos Colombia, Chile, Argentina, México, Perú y Uruguay."
+      },
+      {
+        "q": "¿Puedo cancelar cuando quiera?",
+        "a": "Sí, sin multas ni preguntas. Cancela con un clic."
+      }
+    ]
+  },
+  "cta_final": {
+    "title": "No pierdas más dinero",
+    "subtitle": "Cada día que controlas tu granja en papel es dinero que estás dejando de ganar. Tus competidores ya están usando herramientas profesionales.",
+    "cta": "Comenzar ahora",
+    "guarantee": "Garantía total: tu riesgo es cero"
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados.",
+    "terms": "Términos y Condiciones",
+    "privacy": "Privacidad"
+  },
+  "demo": {
+    "mode": "MODO DEMOSTRACIÓN",
+    "explore": "Explora el sistema libremente. Los datos son ilustrativos.",
+    "kpi_huevos": "Huevos Hoy",
+    "kpi_postura": "Tasa de Postura",
+    "kpi_ingreso": "Ingreso Mensual",
+    "kpi_mortalidad": "Mortalidad",
+    "mis_galpones": "Mis Galpones",
+    "actividades": "Actividades Recientes",
+    "resumen": "Resumen Rápido",
+    "lotes": "Lotes",
+    "aves": "Aves",
+    "vendido": "Vendido",
+    "docenas": "docenas"
+  },
+  "auth": {
+    "login_title": "Entrar a AveGestoria",
+    "register_title": "Crear tu cuenta",
+    "email": "Email",
+    "password": "Contraseña",
+    "login": "Entrar",
+    "register": "Crear cuenta",
+    "google": "Continuar con Google",
+    "no_account": "¿No tienes cuenta?",
+    "has_account": "¿Ya tienes cuenta?",
+    "create_one": "Crea una",
+    "sign_in": "Inicia sesión",
+    "logout": "Cerrar sesión"
+  }
+}
