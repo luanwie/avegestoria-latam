@@ -110,7 +110,7 @@ export default function LandingPage() {
             <a href="#pricing" className="text-stone-400 hover:text-brand-gold transition-colors">Precios</a>
             <Link href="/es/demo" className="text-stone-400 hover:text-brand-gold transition-colors">Ver Demo</Link>
             <Link href="/es/auth/login" className="text-stone-400 hover:text-brand-gold transition-colors">Entrar</Link>
-            <Link href="/es/auth/register" className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-lg shadow-brand-gold/20">
+            <Link href="/es/prices" className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-lg shadow-brand-gold/20">
               Probar gratis
             </Link>
           </div>
@@ -127,7 +127,7 @@ export default function LandingPage() {
                 <a href="#pricing" onClick={() => setNavOpen(false)} className="py-2 text-stone-300">Precios</a>
                 <Link href="/es/demo" onClick={() => setNavOpen(false)} className="py-2 text-stone-300">Ver Demo</Link>
                 <Link href="/es/auth/login" onClick={() => setNavOpen(false)} className="py-2 text-stone-300">Entrar</Link>
-                <Link href="/es/auth/register" onClick={() => setNavOpen(false)} className="bg-brand-gold text-brand-green-deeper font-bold px-4 py-3 rounded-lg text-center">Probar gratis</Link>
+                <Link href="/es/prices" onClick={() => setNavOpen(false)} className="bg-brand-gold text-brand-green-deeper font-bold px-4 py-3 rounded-lg text-center">Probar gratis</Link>
               </div>
             </motion.div>
           )}
@@ -160,7 +160,7 @@ export default function LandingPage() {
                 Sin planillas, sin papeles, sin conjeturas.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/es/auth/register" className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-8 py-3.5 rounded-xl text-base transition-all inline-flex items-center gap-2 shadow-lg shadow-brand-gold/25 group">
+                <Link href="/es/prices" className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-8 py-3.5 rounded-xl text-base transition-all inline-flex items-center gap-2 shadow-lg shadow-brand-gold/25 group">
                   Probar gratis por 7 días
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -323,7 +323,7 @@ export default function LandingPage() {
                     <p className="text-sm text-stone-400">Visualiza si tu producción está subiendo, bajando o estable. Toma decisiones antes de que sea tarde.</p>
                   </div>
 
-                  <Link href="/es/auth/register" className="block w-full bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold text-center py-3.5 rounded-xl text-sm transition-all shadow-lg shadow-brand-gold/20">
+                  <Link href="/es/prices" className="block w-full bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold text-center py-3.5 rounded-xl text-sm transition-all shadow-lg shadow-brand-gold/20">
                     Activar IA ahora
                   </Link>
                 </motion.div>
@@ -403,7 +403,7 @@ export default function LandingPage() {
                         ))}
                       </ul>
                       <Link
-                        href="/es/auth/register"
+                        href="/es/prices"
                         className={`block text-center py-3 rounded-xl text-sm font-bold transition-all ${
                           plan.popular
                             ? "bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper shadow-lg shadow-brand-gold/20"
@@ -499,8 +499,8 @@ export default function LandingPage() {
                 Tus competidores ya están usando herramientas profesionales.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Link href="/es/auth/register" className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-8 py-3.5 rounded-xl text-base transition-all inline-flex items-center gap-2 shadow-lg shadow-brand-gold/25 group">
-                  Comenzar ahora — USD 1
+                <Link href="/es/prices" className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-8 py-3.5 rounded-xl text-base transition-all inline-flex items-center gap-2 shadow-lg shadow-brand-gold/25 group">
+                  Comenzar ahora — 7 días gratis
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link href="/es/demo" className="border border-brand-green hover:border-brand-gold/50 text-stone-300 px-8 py-3.5 rounded-xl text-base font-medium transition-all inline-flex items-center gap-2 gold-glow">

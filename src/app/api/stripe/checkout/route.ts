@@ -18,6 +18,13 @@ export async function POST(request: NextRequest) {
       profesional: process.env.STRIPE_PROFESIONAL_PRICE_ID!,
     };
 
+    if (!priceIds[plan]) {
+      return NextResponse.json(
+        { error: "Plan no configurado — falta STRIPE_PRICE_ID en .env" },
+        { status: 500 }
+      );
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [
@@ -33,8 +40,8 @@ export async function POST(request: NextRequest) {
           plan,
         },
       },
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/es/dashboard?checkout=success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/es/pricing?checkout=canceled`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/es/onboarding?checkout=success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/es/prices?checkout=canceled`,
       client_reference_id: userId,
     });
 

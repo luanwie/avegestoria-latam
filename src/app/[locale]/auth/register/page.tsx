@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Eye, EyeOff, UserPlus } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const plan = searchParams.get("plan") || "esencial";
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,6 +30,7 @@ export default function RegisterPage() {
     }
 
     try {
+      // 1. Create account
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -41,7 +45,34 @@ export default function RegisterPage() {
         return;
       }
 
-      router.push("/es/onboarding");
+      // 2. Sign in automatically
+      const signInResult = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (signInResult?.error) {
+        // Redirect to login if auto-signin fails
+        router.push("/es/auth/login");
+        return;
+      }
+
+      // 3. Redirect to Stripe checkout with selected plan
+      const checkoutRes = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan, userId: data.userId }),
+      });
+
+      const checkout = await checkoutRes.json();
+
+      if (checkout.url) {
+        window.location.href = checkout.url;
+      } else {
+        setError("Error al crear el pago. Intenta de nuevo.");
+        setLoading(false);
+      }
     } catch {
       setError("Error de conexión. Intenta de nuevo.");
       setLoading(false);
@@ -65,7 +96,7 @@ export default function RegisterPage() {
               Crear tu cuenta
             </h1>
             <p className="text-sm text-stone-400 mt-1">
-              Empieza a controlar tu granja
+              Para el plan <span className="text-brand-gold font-semibold capitalize">{plan}</span>
             </p>
           </div>
 
