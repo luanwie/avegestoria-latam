@@ -4,19 +4,42 @@ import prisma from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json();
+    const body = await request.json();
+    const { email } = body;
 
-    if (!email || !password) {
-      return NextResponse.json({ error: "Email y contraseña requeridos" }, { status: 400 });
+    if (!email) {
+      return NextResponse.json({ error: "Email requerido" }, { status: 400 });
     }
 
-    if (password.length < 6) {
-      return NextResponse.json({ error: "Mínimo 6 caracteres" }, { status: 400 });
-    }
-
+    // Find user
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 });
+    }
+
+    // Profile-only update (no password change)
+    if (body.onlyProfile) {
+      const { name, nombreGranja, ciudad, pais, moneda } = body;
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          name: name || user.name,
+          nombreGranja: nombreGranja || user.nombreGranja,
+          ciudad: ciudad || user.ciudad,
+          pais: pais || user.pais,
+          moneda: moneda || user.moneda,
+        },
+      });
+
+      return NextResponse.json({ success: true, profile: true });
+    }
+
+    // Password update
+    const { password } = body;
+
+    if (!password || password.length < 6) {
+      return NextResponse.json({ error: "Mínimo 6 caracteres" }, { status: 400 });
     }
 
     const passwordHash = await bcrypt.hash(password, 12);

@@ -18,6 +18,10 @@ model User {
   image         String?
   passwordHash  String?
   role          String    @default("user") // user | admin
+  nombreGranja  String?
+  ciudad        String?
+  pais          String?
+  moneda        String?   // BRL, COP, CLP, ARS, USD
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
