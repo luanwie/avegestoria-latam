@@ -52,11 +52,11 @@ export default function LandingPage() {
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen bg-brand-green-deeper text-stone-100">
+    <div className="min-h-screen bg-bg-primary text-stone-100">
       <ParticleField />
 
       {/* ── Nav ── */}
-      <GlassCard className="fixed top-0 left-0 right-0 z-50 bg-brand-green-deeper/80 backdrop-blur-2xl border-b border-brand-green/30 rounded-none">
+      <GlassCard className="fixed top-0 left-0 right-0 z-50 bg-bg-primary/80 backdrop-blur-2xl border-b border-white/5 rounded-none">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
           <Link href="/es" className="flex items-center gap-2">
             <img src="/icon.png" alt="" className="h-8 w-8" />

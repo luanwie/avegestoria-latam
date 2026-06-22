@@ -23,7 +23,7 @@ export default function DashboardShell({
   useEffect(() => setTouch(false), []);
 
   return (
-    <div className="min-h-screen bg-brand-green-deeper text-stone-100 flex">
+    <div className="min-h-screen bg-bg-primary text-stone-100 flex">
       {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-40 w-64 bg-brand-green-dark/80 border-r border-brand-green/30 backdrop-blur-xl transform transition-transform duration-200 ${

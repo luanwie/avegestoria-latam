@@ -3,11 +3,13 @@
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
+import { motion } from "motion/react";
 import Link from "next/link";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import PeriodFilter from "@/components/dashboard/PeriodFilter";
 import DashboardCharts from "@/components/dashboard/DashboardCharts";
 import PredictionsCards from "@/components/dashboard/PredictionsCards";
+import { DRECard } from "@/components/dashboard/DRECard";
 import { KPISkeleton, ChartSkeleton } from "@/components/ui/Skeleton";
 import { hubLinks } from "@/components/dashboard/links";
 
@@ -142,7 +144,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* KPIs */}
+      {/* KPIs + DRE */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
         {[
           { label: "Huevos Hoy", kpi: kpis?.huevosHoy, color: "emerald" },
@@ -150,9 +152,12 @@ export default function DashboardPage() {
           { label: "Ingreso del Período", kpi: kpis?.ingresoMensual, color: "amber" },
           { label: "Mortalidad Hoy", kpi: kpis?.mortalidad, color: "rose" },
         ].map((item, i) => (
-          <div
+          <motion.div
             key={i}
-            className={`rounded-xl p-4 bg-${item.color}-900/30 border border-${item.color}-800/30`}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: i * 0.08 }}
+            className={`rounded-xl p-4 bg-${item.color}-900/20 border border-${item.color}-800/20 gold-glow`}
           >
             <p className="text-xs text-stone-400 mb-1">{item.label}</p>
             <p className="text-2xl font-bold text-stone-100">
@@ -161,8 +166,41 @@ export default function DashboardPage() {
             {item.kpi?.change && (
               <p className="text-xs text-emerald-400 mt-1">{item.kpi.change}</p>
             )}
-          </div>
+          </motion.div>
         ))}
+      </div>
+
+      {/* DRE + Galpones */}
+      <div className="grid lg:grid-cols-2 gap-6 mb-6">
+        <DRECard
+          ingresos={data?.resumen?.ingresoPeriodo || 0}
+          gastos={data?.resumen?.gastoPeriodo || 0}
+          lucro={(data?.resumen?.ingresoPeriodo || 0) - (data?.resumen?.gastoPeriodo || 0)}
+          margen={data?.resumen?.ingresoPeriodo ? (((data.resumen.ingresoPeriodo - data.resumen.gastoPeriodo) / data.resumen.ingresoPeriodo) * 100) : 0}
+          loading={loading}
+        />
+        <div className="bg-bg-secondary border border-white/5 rounded-xl p-5">
+          <h3 className="text-sm font-semibold text-stone-200 mb-4">Mis Galpones</h3>
+          {data?.galpones.length ? (
+            <div className="space-y-3">
+              {data.galpones.map((g) => (
+                <motion.div
+                  key={g.id}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="flex items-center justify-between bg-white/[0.03] rounded-lg p-3 gold-glow"
+                >
+                  <div>
+                    <p className="text-sm font-medium text-stone-200">{g.nombre}</p>
+                    <p className="text-xs text-stone-500">{g.lotes} lotes • {g.aves.toLocaleString()} aves</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-stone-500 text-center py-6">Crea tu primer galpón para empezar</p>
+          )}
+        </div>
       </div>
 
       {/* Charts */}
