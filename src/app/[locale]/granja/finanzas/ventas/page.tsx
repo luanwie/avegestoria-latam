@@ -6,7 +6,6 @@ import { Plus, Pencil, Trash2, X, Check } from "lucide-react";
 
 type Venta = {
   id: string;
-  clienteId: string | null;
   clienteNombre: string | null;
   fecha: string;
   docenas: number;
@@ -56,17 +55,10 @@ export default function VentasPage() {
 
   useEffect(() => {
     setLoading(true);
-    Promise.all([
-      fetch("/api/granja/finanzas/ventas")
-        .then((r) => r.json())
-        .then(setVentas),
-      fetch("/api/granja/clientes")
-        .then((r) => r.json())
-        .then((data) => {
-          const list = Array.isArray(data) ? data : data.clientes || [];
-          setClientes(list);
-        }),
-    ]).finally(() => setLoading(false));
+    fetch("/api/granja/finanzas/ventas")
+      .then((r) => r.json())
+      .then(setVentas)
+      .finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -82,7 +74,7 @@ export default function VentasPage() {
   };
 
   const openEdit = (v: Venta) => {
-    setFormClienteId(v.clienteId || "");
+    setFormClienteId(v.clienteNombre || "");
     setFormFecha(v.fecha.split("T")[0]);
     setFormDocenas(v.docenas.toString());
     setFormPrecio(v.precioPorDocena.toString());
@@ -97,7 +89,7 @@ export default function VentasPage() {
     if (!formFecha || !formDocenas || !formPrecio) return;
 
     const body = {
-      clienteId: formClienteId || null,
+      clienteNombre: formClienteId || null,
       fecha: formFecha,
       docenas: parseInt(formDocenas, 10),
       precioPorDocena: parseFloat(formPrecio),
@@ -200,18 +192,13 @@ export default function VentasPage() {
           <form onSubmit={handleSubmit} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label className="block text-xs text-stone-400 mb-1">Cliente</label>
-              <select
+              <input
+                type="text"
                 value={formClienteId}
                 onChange={(e) => setFormClienteId(e.target.value)}
+                placeholder="Nombre del cliente (opcional)"
                 className="w-full bg-emerald-950/60 border border-emerald-800/40 rounded-lg px-3 py-2 text-sm text-stone-200"
-              >
-                <option value="">Sin cliente</option>
-                {clientes.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.nombre}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
             <div>
               <label className="block text-xs text-stone-400 mb-1">Fecha *</label>

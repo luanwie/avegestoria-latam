@@ -70,7 +70,6 @@ export async function GET(
       case "financiero": {
         const ventas = await prisma.venta.findMany({
           where: { userId, fecha: { gte: desdeDate, lte: hastaDate } },
-          include: { cliente: { select: { nombre: true } } },
           orderBy: { fecha: "asc" },
         });
 
@@ -104,7 +103,7 @@ export async function GET(
           })),
           detalleVentas: ventas.map((v) => ({
             fecha: v.fecha.toISOString().split("T")[0],
-            cliente: v.cliente?.nombre || "—",
+            cliente: v.clienteNombre || "—",
             docenas: v.docenas,
             total: (Number(v.docenas) * Number(v.precioPorDocena)).toFixed(2),
             metodo: v.metodoPago,
