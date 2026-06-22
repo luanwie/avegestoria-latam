@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, LogOut, Menu, X } from "lucide-react";
 import type { NavLink } from "./links";
-import { defaultLinks } from "./links";
+import { hubLinks } from "./links";
 
 export default function DashboardShell({
   children,
@@ -17,7 +17,7 @@ export default function DashboardShell({
   links?: NavLink[];
 }) {
   const pathname = usePathname();
-  const navLinks = links || defaultLinks;
+  const navLinks = links || hubLinks;
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isTouch, setTouch] = useState(true);
   useEffect(() => setTouch(false), []);
