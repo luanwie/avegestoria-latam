@@ -110,19 +110,13 @@ export default function OnboardingPage() {
         return;
       }
       try {
-        const res = await fetch("/api/auth/register", {
+        const res = await fetch("/api/auth/set-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: email?.split("@")[0] || "Productor", email, password }),
+          body: JSON.stringify({ email, password }),
         });
         if (!res.ok) {
           const data = await res.json();
-          // If user already exists, try to set password via a PUT
-          if (res.status === 409) {
-            // User exists from webhook — go to next step
-            setStep(1);
-            return;
-          }
           setPasswordError(data.error || "Error al crear contraseña");
           return;
         }
