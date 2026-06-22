@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import "../globals.css";
 import { AgroGreenTheme } from "@/components/ui/theme-provider";
 import { GoogleAnalytics } from "@/components/seo/GoogleAnalytics";
+import AuthProvider from "@/components/auth/AuthProvider";
 
 export async function generateMetadata() {
   return {
@@ -64,8 +65,10 @@ export default async function LocaleLayout({
       <body className="min-h-screen bg-emerald-950 text-stone-100 antialiased">
         <GoogleAnalytics />
         <NextIntlClientProvider messages={messages}>
-          <AgroGreenTheme />
-          {children}
+          <AuthProvider>
+            <AgroGreenTheme />
+            {children}
+          </AuthProvider>
           <Toaster
             position="top-right"
             toastOptions={{
