@@ -10,39 +10,27 @@ export async function GET(request: NextRequest) {
 
   const userId = session.user.id;
   const { searchParams } = new URL(request.url);
-  const clienteId = searchParams.get("clienteId");
+  const cliente = searchParams.get("cliente");
   const desde = searchParams.get("desde");
   const hasta = searchParams.get("hasta");
 
   const where: Record<string, unknown> = { userId };
 
-  if (clienteId) where.clienteId = clienteId;
-
+  if (cliente) where.clienteNombre = { contains: cliente };
   if (desde || hasta) {
     const fechaFilter: Record<string, Date> = {};
     if (desde) fechaFilter.gte = new Date(desde);
-    if (hasta) {
-      const hastaDate = new Date(hasta);
-      hastaDate.setHours(23, 59, 59);
-      fechaFilter.lte = hastaDate;
-    }
+    if (hasta) { const hastaDate = new Date(hasta); hastaDate.setHours(23, 59, 59); fechaFilter.lte = hastaDate; }
     where.fecha = fechaFilter;
   }
 
   try {
-    const ventas = await prisma.venta.findMany({
-      where,
-      include: {
-        cliente: { select: { id: true, nombre: true } },
-      },
-      orderBy: { fecha: "desc" },
-    });
+    const ventas = await prisma.venta.findMany({ where, orderBy: { fecha: "desc" } });
 
     return NextResponse.json(
       ventas.map((v) => ({
         id: v.id,
-        clienteId: v.clienteId,
-        clienteNombre: v.cliente?.nombre || null,
+        clienteNombre: v.clienteNombre || null,
         fecha: v.fecha.toISOString(),
         docenas: v.docenas,
         precioPorDocena: Number(v.precioPorDocena),
@@ -68,42 +56,31 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { clienteId, fecha, docenas, precioPorDocena, metodoPago, descripcion } = body;
+    const { clienteNombre, fecha, docenas, precioPorDocena, metodoPago, descripcion } = body;
 
     if (!fecha || docenas === undefined || precioPorDocena === undefined) {
-      return NextResponse.json(
-        { error: "Campos requeridos: fecha, docenas, precioPorDocena" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Campos requeridos: fecha, docenas, precioPorDocena" }, { status: 400 });
     }
-
     if (typeof docenas !== "number" || docenas <= 0) {
-      return NextResponse.json(
-        { error: "docenas debe ser un número positivo" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "docenas debe ser un número positivo" }, { status: 400 });
     }
 
     const venta = await prisma.venta.create({
       data: {
         userId,
-        clienteId: clienteId || null,
+        clienteNombre: clienteNombre || null,
         fecha: new Date(fecha),
         docenas,
         precioPorDocena: Number(precioPorDocena),
         metodoPago: metodoPago || "efectivo",
         descripcion: descripcion || null,
       },
-      include: {
-        cliente: { select: { id: true, nombre: true } },
-      },
     });
 
     return NextResponse.json(
       {
         id: venta.id,
-        clienteId: venta.clienteId,
-        clienteNombre: venta.cliente?.nombre || null,
+        clienteNombre: venta.clienteNombre,
         fecha: venta.fecha.toISOString(),
         docenas: venta.docenas,
         precioPorDocena: Number(venta.precioPorDocena),

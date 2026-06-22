@@ -10,6 +10,7 @@ import PeriodFilter from "@/components/dashboard/PeriodFilter";
 import DashboardCharts from "@/components/dashboard/DashboardCharts";
 import PredictionsCards from "@/components/dashboard/PredictionsCards";
 import { DRECard } from "@/components/dashboard/DRECard";
+import { FCRAlertBanner } from "@/components/dashboard/FCRAlertBanner";
 import { KPISkeleton, ChartSkeleton } from "@/components/ui/Skeleton";
 import { hubLinks } from "@/components/dashboard/links";
 
@@ -62,6 +63,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [predictionData, setPredictionData] = useState<any>(null);
   const [predictionLoading, setPredictionLoading] = useState(false);
+  const [fcrData, setFcrData] = useState<any>(null);
 
   const periodo = searchParams.get("periodo") || "7";
 
@@ -94,6 +96,18 @@ export default function DashboardPage() {
         })
         .catch(() => {})
         .finally(() => setPredictionLoading(false));
+    }
+  }, [status]);
+
+  // Fetch FCR alerts
+  useEffect(() => {
+    if (status === "authenticated") {
+      fetch("/api/granja/fcr")
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.hasAlerts) setFcrData(d);
+        })
+        .catch(() => {});
     }
   }, [status]);
 
@@ -143,6 +157,9 @@ export default function DashboardPage() {
           })}
         </div>
       </div>
+
+      {/* FCR Alert */}
+      {fcrData && <FCRAlertBanner producciones={[]} loading={false} />}
 
       {/* KPIs + DRE */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">

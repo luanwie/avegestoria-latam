@@ -228,18 +228,11 @@ export default function OnboardingPage() {
           }),
         });
 
-        const clienteRes = await fetch("/api/granja/clientes", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nombre: form.ventaCliente }),
-        });
-        const cliente = await clienteRes.json();
-
-        await fetch("/api/granja/finanzas/ventas", {
+        const ventaRes = await fetch("/api/granja/finanzas/ventas", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            clienteId: cliente.id,
+            clienteNombre: form.ventaCliente,
             fecha: new Date().toISOString().split("T")[0],
             docenas: parseInt(form.ventaDocenas),
             precioPorDocena: parseFloat(form.ventaPrecio),

@@ -33,7 +33,6 @@ model User {
   galpones       Galpon[]
   razas          Raza[]
   lotes          Lote[]
-  clientes       Cliente[]
   ventas         Venta[]
   gastos         Gasto[]
   predicciones   Prediccion[]
@@ -98,8 +97,10 @@ model Raza {
   id                   String   @id @default(cuid())
   userId               String
   nombre               String
-  productividadEsperada Decimal? @map("productividad_esperada") // % postura esperado
-  pesoPromedio         Decimal? @map("peso_promedio") // gramos
+  productividadEsperada Decimal? @map("productividad_esperada")
+  pesoPromedio         Decimal? @map("peso_promedio")          // gramos
+  pesoHuevo            Decimal? @map("peso_huevo")              // gramos por huevo (default 60g)
+  curvaFCR             Json?    @map("curva_fcr") @db.JsonB     // [{semana: 1, fcr: 2.5}, ...]
   createdAt            DateTime @default(now())
 
   user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -109,42 +110,44 @@ model Raza {
 }
 
 model Lote {
-  id             String    @id @default(cuid())
-  userId         String
-  galponId       String?   @map("galpon_id")
-  razaId         String?   @map("raza_id")
-  nombre         String
-  cantidadAves   Int       @map("cantidad_aves")
-  fechaIngreso   DateTime  @map("fecha_ingreso")
+  id              String    @id @default(cuid())
+  userId          String
+  galponId        String?   @map("galpon_id")
+  razaId          String?   @map("raza_id")
+  nombre          String
+  cantidadAves    Int       @map("cantidad_aves")
+  fechaIngreso    DateTime  @map("fecha_ingreso")
   fechaFinalizado DateTime? @map("fecha_finalizado")
-  estado         String    @default("activo") // activo | finalizado | vendido
-  costoAve       Decimal?  @map("costo_ave")
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  estado          String    @default("activo") // activo | finalizado | vendido
+  costoAve        Decimal?  @map("costo_ave")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
-  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  galpon    Galpon? @relation(fields: [galponId], references: [id], onDelete: SetNull)
-  raza      Raza?   @relation(fields: [razaId], references: [id], onDelete: SetNull)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  galpon Galpon? @relation(fields: [galponId], references: [id], onDelete: SetNull)
+  raza   Raza?   @relation(fields: [razaId], references: [id], onDelete: SetNull)
 
-  producciones    ProduccionDiaria[]
-  gastos          Gasto[]
-  predicciones    Prediccion[]
+  producciones ProduccionDiaria[]
+  gastos       Gasto[]
+  predicciones Prediccion[]
 
   @@map("lotes")
 }
 
 model ProduccionDiaria {
-  id                String   @id @default(cuid())
-  userId            String
-  loteId            String   @map("lote_id")
-  fecha             DateTime
-  huevosColectados  Int      @map("huevos_colectados")
-  huevosRotos       Int      @default(0) @map("huevos_rotos")
-  huevosSucios      Int      @default(0) @map("huevos_sucios")
-  huevosPartidos    Int      @default(0) @map("huevos_partidos")
-  mortalidad        Int      @default(0)
-  observaciones     String?
-  createdAt         DateTime @default(now())
+  id               String   @id @default(cuid())
+  userId           String
+  loteId           String   @map("lote_id")
+  fecha            DateTime
+  huevosColectados Int      @map("huevos_colectados")
+  huevosRotos      Int      @default(0) @map("huevos_rotos")
+  huevosSucios     Int      @default(0) @map("huevos_sucios")
+  huevosPartidos   Int      @default(0) @map("huevos_partidos")
+  mortalidad       Int      @default(0)
+  feedProvidedKg   Decimal? @map("feed_provided_kg")   // ração fornecida (kg)
+  feedLeftoverKg   Decimal? @map("feed_leftover_kg")   // sobra de ração (kg)
+  observaciones    String?
+  createdAt        DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   lote Lote @relation(fields: [loteId], references: [id], onDelete: Cascade)
@@ -153,35 +156,18 @@ model ProduccionDiaria {
   @@map("produccion_diaria")
 }
 
-model Cliente {
-  id        String   @id @default(cuid())
-  userId    String
-  nombre    String
-  telefono  String?
-  direccion String?
-  activo    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ventas Venta[]
-
-  @@map("clientes")
-}
-
 model Venta {
   id              String   @id @default(cuid())
   userId          String
-  clienteId       String?  @map("cliente_id")
+  clienteNombre   String?  @map("cliente_nombre")  // nome do cliente (texto livre)
   fecha           DateTime
   docenas         Int
   precioPorDocena Decimal  @map("precio_por_docena")
-  metodoPago      String   @default("efectivo") @map("metodo_pago") // efectivo | transferencia | tarjeta | otro
+  metodoPago      String   @default("efectivo") @map("metodo_pago")
   descripcion     String?
   createdAt       DateTime @default(now())
 
-  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cliente Cliente? @relation(fields: [clienteId], references: [id], onDelete: SetNull)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("ventas")
 }
@@ -207,7 +193,7 @@ model Prediccion {
   userId    String
   loteId    String?  @map("lote_id")
   tipo      String   // produccion | mortalidad | costos
-  dias      Int      // 30, 60, or 90
+  dias      Int
   resultado Json     @db.JsonB
   createdAt DateTime @default(now())
 
@@ -220,7 +206,7 @@ model Prediccion {
 model Alerta {
   id        String   @id @default(cuid())
   userId    String
-  tipo      String   // mortalidad_alta | produccion_baja | vacuna | economico
+  tipo      String   // mortalidad_alta | produccion_baja | vacuna | economico | fcr_alto
   mensaje   String
   leida     Boolean  @default(false)
   createdAt DateTime @default(now())

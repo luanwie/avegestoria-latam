@@ -22,7 +22,6 @@ export const hubLinks: NavLink[] = [
   { label: "Galpones", icon: Warehouse, href: "/es/granja/galpones" },
   { label: "Lotes", icon: Egg, href: "/es/granja/lotes" },
   { label: "Razas", icon: Dna, href: "/es/granja/razas" },
-  { label: "Clientes", icon: Users, href: "/es/granja/clientes" },
   { label: "Producción", icon: ClipboardList, href: "/es/granja/produccion" },
   { label: "Finanzas", icon: DollarSign, href: "/es/granja/finanzas" },
   { label: "Informes", icon: FileText, href: "/es/granja/informes" },
