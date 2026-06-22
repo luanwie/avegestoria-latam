@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://avegestoria.vercel.app";
+    const appUrl = (process.env.NEXT_PUBLIC_APP_URL || "https://avegestoria.vercel.app").replace(/\/+$/, "");
     const setupFeePriceId = process.env.STRIPE_SETUP_FEE_PRICE_ID;
 
     const lineItems = [{ price: priceIds[plan], quantity: 1 }];
