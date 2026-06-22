@@ -36,8 +36,6 @@ export async function POST(request: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: lineItems,
-      // @ts-expect-error — currency_conversion supported at runtime
-      currency_conversion: { enabled: true },
       subscription_data: {
         trial_period_days: 7,
         metadata: { plan },
