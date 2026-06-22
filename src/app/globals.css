@@ -37,6 +37,7 @@
   --color-danger: #dc2626;
 
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  font-display: swap;
 }
 
 /* ── Animated background layers ── */
