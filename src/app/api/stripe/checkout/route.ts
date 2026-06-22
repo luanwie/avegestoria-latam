@@ -12,8 +12,6 @@ const PRICE_IDS: Record<string, string> = {
   "profesional-anual": "price_1TkydMKIvxBctS1xTJsQbqTe",
 };
 
-const SETUP_FEE_PRICE_ID = "price_1TkyZLKIvxBctS1xZk48N3Bz";
-
 export async function POST(request: NextRequest) {
   try {
     const { plan } = await request.json();
@@ -29,17 +27,11 @@ export async function POST(request: NextRequest) {
 
     const appUrl = (process.env.NEXT_PUBLIC_APP_URL || "https://avegestoria.vercel.app").replace(/\/+$/, "");
 
-    const lineItems = [{ price: priceId, quantity: 1 }];
-    if (SETUP_FEE_PRICE_ID) {
-      lineItems.push({ price: SETUP_FEE_PRICE_ID, quantity: 1 });
-    }
-
-    // Annual plans don't have trial — they're billed immediately
     const isAnnual = plan.endsWith("-anual");
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
-      line_items: lineItems,
+      line_items: [{ price: priceId, quantity: 1 }],
       subscription_data: {
         ...(isAnnual ? {} : { trial_period_days: 7 }),
         metadata: { plan },

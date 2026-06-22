@@ -40,7 +40,7 @@ const plans = [
 const faqs = [
   { q: "¿Necesito internet?", a: "Funciona offline y sincroniza cuando tengas conexión. Ideal para zonas rurales." },
   { q: "¿Es difícil de usar?", a: "Hecho para productores. Si usas WhatsApp, puedes usar AveGestoria." },
-  { q: "¿Puedo probar antes?", a: "7 días gratis con cobro de $1 de activación. Cancela cuando quieras." },
+  { q: "¿Puedo probar antes?", a: "Sí. 7 días completamente gratis. Sin compromiso. Cancela cuando quieras." },
   { q: "¿Mis datos están seguros?", a: "Cifrado de extremo a extremo, backups automáticos diarios." },
   { q: "¿Aceptan pagos de mi país?", a: "Stripe. Colombia, Chile, Argentina, México, Perú y Uruguay." },
   { q: "¿Puedo cancelar?", a: "Sí, con un clic. Sin multas, sin burocracia." },
@@ -145,7 +145,7 @@ export default function LandingPage() {
                   className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
                   <Link href="/es/prices" className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-8 py-3.5 rounded-xl text-base transition-all inline-flex items-center gap-2 shadow-lg shadow-brand-gold/25 group">
-                    Probar gratis por 7 días
+                    7 días gratis
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <Link href="/es/demo" className="border border-brand-green hover:border-brand-gold/50 text-stone-300 px-8 py-3.5 rounded-xl text-base font-medium transition-all inline-flex items-center gap-2">
@@ -160,7 +160,7 @@ export default function LandingPage() {
                   transition={{ delay: 1.2 }}
                   className="text-xs text-stone-600 mt-4"
                 >
-                  Sin compromiso. $1 de activación + 7 días gratis 🇨🇴 🇨🇱 🇦🇷
+                  Sin compromiso. 7 días gratis · Sin compromiso 🇨🇴 🇨🇱 🇦🇷
                 </motion.p>
               </motion.div>
             </div>
@@ -392,7 +392,7 @@ export default function LandingPage() {
                             : "border border-brand-green hover:border-brand-gold/50 text-stone-300"
                         }`}
                       >
-                        Comenzar — $1
+                        7 días gratis
                       </Link>
                       <p className="text-[10px] text-stone-600 text-center mt-2">Garantía 7 días • Cancela cuando quieras</p>
                     </TiltCard>
@@ -475,7 +475,7 @@ export default function LandingPage() {
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link href="/es/prices" className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-8 py-3.5 rounded-xl text-base transition-all inline-flex items-center gap-2 shadow-lg shadow-brand-gold/25 group">
-                  Comenzar ahora — $1
+                  7 días gratis
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link href="/es/demo" className="border border-brand-green hover:border-brand-gold/50 text-stone-300 px-8 py-3.5 rounded-xl text-base font-medium transition-all inline-flex items-center gap-2">

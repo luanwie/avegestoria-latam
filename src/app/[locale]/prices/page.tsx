@@ -185,7 +185,7 @@ export default function PricesPage() {
                       : "border border-brand-green hover:border-brand-gold/50 text-stone-300"
                   }`}
                 >
-                  {loading ? "Redirigiendo..." : `Comenzar — USD 1`}
+                  {loading ? "Redirigiendo..." : `7 días gratis`}
                 </button>
 
                 <div className="mt-4 space-y-2">
