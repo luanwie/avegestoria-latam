@@ -37,7 +37,11 @@
   --color-danger: #dc2626;
 
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  font-display: swap;
+}
+
+/* Font optimization */
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 /* ── Animated background layers ── */
