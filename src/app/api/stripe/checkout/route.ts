@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: lineItems,
+      currency_conversion: { enabled: true },
       subscription_data: {
         trial_period_days: 7,
         metadata: { plan },
