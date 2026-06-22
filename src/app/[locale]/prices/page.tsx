@@ -48,8 +48,28 @@ export default function PricesPage() {
 
   const handleSelectPlan = async (planId: string) => {
     setSelectedPlan(planId);
-    // Redirect to register with plan param
-    router.push(`/es/auth/register?plan=${planId}`);
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planId }),
+      });
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setError(data.error || "Error al crear el pago");
+        setLoading(false);
+      }
+    } catch {
+      setError("Error de conexión. Intenta de nuevo.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -73,6 +93,11 @@ export default function PricesPage() {
           {canceled && (
             <div className="bg-brand-gold/10 border border-brand-gold/30 rounded-xl px-5 py-3 mb-8 text-sm text-brand-gold">
               Pago cancelado. Puedes intentar de nuevo cuando quieras.
+            </div>
+          )}
+          {error && (
+            <div className="bg-red-900/20 border border-red-800/30 rounded-xl px-5 py-3 mb-8 text-sm text-red-400">
+              {error}
             </div>
           )}
 

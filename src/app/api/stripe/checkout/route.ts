@@ -7,7 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(request: NextRequest) {
   try {
-    const { plan, userId } = await request.json();
+    const { plan } = await request.json();
 
     if (!plan || !["esencial", "profesional"].includes(plan)) {
       return NextResponse.json({ error: "Plan inválido" }, { status: 400 });
@@ -20,45 +20,37 @@ export async function POST(request: NextRequest) {
 
     if (!priceIds[plan]) {
       return NextResponse.json(
-        { error: "Plan no configurado — falta STRIPE_PRICE_ID en .env" },
+        { error: `Plan "${plan}" no configurado — falta STRIPE_PRICE_ID en .env` },
         { status: 500 }
       );
     }
 
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://avegestoria.vercel.app";
     const setupFeePriceId = process.env.STRIPE_SETUP_FEE_PRICE_ID;
 
-    const lineItems = [
-      { price: priceIds[plan], quantity: 1 },
-    ];
-
-    // Add setup fee as a separate line item (one-time, charged on first invoice)
+    const lineItems = [{ price: priceIds[plan], quantity: 1 }];
     if (setupFeePriceId) {
-      lineItems.push({
-        price: setupFeePriceId,
-        quantity: 1,
-      });
+      lineItems.push({ price: setupFeePriceId, quantity: 1 });
     }
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: lineItems,
+      customer_creation: "always",
       subscription_data: {
         trial_period_days: 7,
-        metadata: {
-          userId,
-          plan,
-        },
+        metadata: { plan },
       },
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/es/onboarding?checkout=success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/es/prices?checkout=canceled`,
-      client_reference_id: userId,
+      success_url: `${appUrl}/es/onboarding?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${appUrl}/es/prices?canceled=true`,
     });
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error("Stripe checkout error:", error);
+    const message = error instanceof Error ? error.message : "Error desconocido";
     return NextResponse.json(
-      { error: "Error al crear el checkout" },
+      { error: `Error al crear el pago: ${message}` },
       { status: 500 }
     );
   }
