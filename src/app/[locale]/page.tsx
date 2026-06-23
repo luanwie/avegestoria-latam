@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
-import { Menu, X, ArrowRight, ShieldCheck, Star, Zap, Check, MessageCircle, TrendingDown, Egg, ChevronRight } from "lucide-react";
+import { Menu, X, ArrowRight, ShieldCheck, Star, Zap, Check, MessageCircle, TrendingDown, Egg, FileText, Smartphone } from "lucide-react";
 import { trackCTA } from "@/components/seo/PageViewTracker";
 import ParticleField from "@/components/ui/ParticleField";
 import ScrollReveal from "@/components/ui/ScrollReveal";
@@ -12,6 +12,13 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 function Dobra1_Hero({ isTouch }: { isTouch: boolean }) {
   return (
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
+      {/* Farm background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-[0.08]"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1626387345637-36d06a5b3cf2?w=1200&q=60')",
+        }}
+      />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-green/30 via-brand-green-deeper to-brand-green-deeper" />
       <div className="relative max-w-4xl mx-auto px-4 sm:px-6 py-20 sm:py-32 text-center z-10">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
@@ -27,17 +34,23 @@ function Dobra1_Hero({ isTouch }: { isTouch: boolean }) {
           </p>
 
           {/* Visual contrast: papel vs app */}
-          <div className="flex items-center justify-center gap-4 sm:gap-8 mb-8 mt-6">
-            <div className="bg-rose-900/15 border border-rose-700/20 rounded-lg px-4 py-3 text-center w-28 sm:w-36">
-              <p className="text-[10px] text-rose-400 mb-1">SIN AveGestoria</p>
-              <p className="text-lg sm:text-xl text-stone-500 line-through">📋 Papel</p>
-              <p className="text-[10px] text-stone-600 mt-0.5">Errores · Tiempo · Caos</p>
+          <div className="flex items-center justify-center gap-3 sm:gap-6 mb-8 mt-6">
+            <div className="bg-rose-900/10 border border-rose-700/20 rounded-xl px-5 py-4 w-36 sm:w-44">
+              <p className="text-[10px] uppercase tracking-wider text-rose-400/70 font-semibold mb-2">Sin AveGestoria</p>
+              <div className="flex items-center gap-2 mb-1">
+                <FileText className="w-4 h-4 text-rose-500/50" />
+                <p className="text-sm text-stone-500">Cuadernos</p>
+              </div>
+              <p className="text-[10px] text-stone-600 leading-relaxed">Errores manuales · Cálculos tardíos · Sin alertas</p>
             </div>
-            <ArrowRight className="w-5 h-5 text-stone-600" />
-            <div className="bg-emerald-900/20 border border-emerald-700/30 rounded-lg px-4 py-3 text-center w-28 sm:w-36">
-              <p className="text-[10px] text-emerald-400 mb-1">CON AveGestoria</p>
-              <p className="text-lg sm:text-xl text-stone-100 font-bold">📱 Control</p>
-              <p className="text-[10px] text-stone-400 mt-0.5">Precisión · Ahorro · Paz</p>
+            <ArrowRight className="w-5 h-5 text-stone-600 shrink-0" />
+            <div className="bg-emerald-900/15 border border-emerald-700/30 rounded-xl px-5 py-4 w-36 sm:w-44">
+              <p className="text-[10px] uppercase tracking-wider text-emerald-400/70 font-semibold mb-2">Con AveGestoria</p>
+              <div className="flex items-center gap-2 mb-1">
+                <Smartphone className="w-4 h-4 text-emerald-400" />
+                <p className="text-sm text-stone-200 font-semibold">Control Total</p>
+              </div>
+              <p className="text-[10px] text-stone-400 leading-relaxed">Datos en tiempo real · Alertas · Lucro por lote</p>
             </div>
           </div>
 
@@ -271,37 +284,67 @@ function Dobra5_Autoridade() {
           </div>
         </ScrollReveal>
 
-        <div className="grid sm:grid-cols-2 gap-8 items-center">
-          <ScrollReveal delay={0.1}>
-            <h2 className="text-xl sm:text-2xl font-bold text-stone-100 mb-4">¿Quién está detrás de esto?</h2>
-            <div className="space-y-3 text-sm text-stone-400 leading-relaxed">
-              <p>
-                Me llamo <span className="text-stone-200 font-semibold">Luan</span>. Nuestra granja familiar tiene más de 40 años de historia en el sur de Brasil. Crecí viendo a mi padre anotar la producción en un cuaderno manchado de grasa. Y vi lo que pasaba cuando los números no cerraban a fin de mes.
-              </p>
-              <p>
-                Estudié administración, entendí de sistemas, y construí AveGestoria para resolver el problema que viví en carne propia. Gracias a este sistema, nuestra granja pasó de 20.000 a 80.000 gallinas en 5 años — con control real sobre cada lote, cada gasto y cada decisión. Hoy quiero ayudarte a hacer lo mismo.
-              </p>
-            </div>
-          </ScrollReveal>
+        {/* Photo + Story + WhatsApp card */}
+        <div className="bg-brand-green/15 border border-brand-green/30 rounded-2xl overflow-hidden">
+          <div className="grid sm:grid-cols-5">
+            {/* Photo */}
+            <ScrollReveal delay={0.1}>
+              <div className="sm:col-span-2 relative h-64 sm:h-full min-h-[280px]">
+                <img
+                  src="/luan.jpg"
+                  alt="Luan — Fundador de AveGestoria"
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-brand-green-deeper/90 sm:bg-gradient-to-r sm:from-transparent sm:to-brand-green-deeper/90" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:hidden">
+                  <p className="text-sm font-bold text-stone-100">Luan</p>
+                  <p className="text-xs text-stone-400">Fundador · AveGestoria</p>
+                </div>
+              </div>
+            </ScrollReveal>
 
-          <ScrollReveal delay={0.2}>
-            <div className="bg-brand-green/20 border border-brand-green/30 rounded-xl p-5">
-              <p className="text-xs text-stone-500 mb-1">Consultoría incluida</p>
-              <p className="text-sm text-stone-300 mb-4">
-                En el plan Profesional, tienes acceso directo a mi WhatsApp. No es un bot. Soy yo, revisando tus números y diciéndote exactamente qué ajustar.
-              </p>
-              <a
-                href="https://wa.me/5551993612092"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackCTA("Dobra5 WhatsApp")}
-                className="inline-flex items-center gap-1.5 bg-emerald-800/30 hover:bg-emerald-700/40 border border-emerald-700/20 text-emerald-400 px-4 py-2 rounded-lg text-xs transition-all"
-              >
-                <MessageCircle className="w-3.5 h-3.5" />
-                Hablar con Luan por WhatsApp
-              </a>
+            {/* Content */}
+            <div className="sm:col-span-3 p-6 sm:p-8 flex flex-col justify-center">
+              <ScrollReveal delay={0.15}>
+                <p className="text-[10px] uppercase tracking-widest text-brand-gold/70 font-semibold mb-2">¿Quién está detrás de esto?</p>
+                <h2 className="text-xl sm:text-2xl font-bold text-stone-100 mb-1">
+                  Luan <span className="text-stone-500 font-normal text-base">— Fundador</span>
+                </h2>
+                <p className="text-xs text-stone-500 mb-4">
+                  Productor avícola · Administrador · Desarrollador
+                </p>
+
+                <div className="space-y-3 text-sm text-stone-400 leading-relaxed">
+                  <p>
+                    Nuestra granja familiar tiene más de <span className="text-stone-200 font-semibold">40 años de historia</span> en el sur de Brasil. Crecí viendo a mi padre anotar la producción en un cuaderno manchado de grasa. Y vi lo que pasaba cuando los números no cerraban a fin de mes.
+                  </p>
+                  <p>
+                    Estudié administración, entendí de sistemas, y construí AveGestoria para resolver el problema que viví en carne propia.{" "}
+                    <span className="text-stone-200 font-semibold">
+                      Gracias a este sistema, nuestra granja pasó de 20.000 a 80.000 gallinas en 5 años
+                    </span>{" "}
+                    — con control real sobre cada lote, cada gasto y cada decisión. Hoy quiero ayudarte a hacer lo mismo.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3 mt-6">
+                  <a
+                    href="https://wa.me/5551993612092"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackCTA("Dobra5 WhatsApp")}
+                    className="inline-flex items-center justify-center gap-2 bg-emerald-700/40 hover:bg-emerald-600/50 border border-emerald-500/30 text-emerald-300 px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    Hablar con Luan por WhatsApp
+                  </a>
+                  <p className="text-[10px] text-stone-600 sm:self-center">
+                    +55 51 99361-2092 · Respuesta en menos de 2h
+                  </p>
+                </div>
+              </ScrollReveal>
             </div>
-          </ScrollReveal>
+          </div>
         </div>
       </div>
     </section>
@@ -706,6 +749,7 @@ function Nav({ onCta }: { onCta?: () => void }) {
           <a href="#roadmap" className="text-stone-400 hover:text-brand-gold transition-colors">Cómo funciona</a>
           <a href="#pricing" className="text-stone-400 hover:text-brand-gold transition-colors">Planes</a>
           <a href="#faq" className="text-stone-400 hover:text-brand-gold transition-colors">FAQ</a>
+          <Link href="/es/blog" className="text-stone-400 hover:text-brand-gold transition-colors">Blog</Link>
           <Link href="/es/auth/login" className="text-stone-400 hover:text-brand-gold transition-colors">Entrar</Link>
           <Link
             href="/es/prices"
@@ -726,6 +770,7 @@ function Nav({ onCta }: { onCta?: () => void }) {
               <a href="#roadmap" onClick={() => setNavOpen(false)} className="py-2 text-stone-300">Cómo funciona</a>
               <a href="#pricing" onClick={() => setNavOpen(false)} className="py-2 text-stone-300">Planes</a>
               <a href="#faq" onClick={() => setNavOpen(false)} className="py-2 text-stone-300">FAQ</a>
+              <Link href="/es/blog" onClick={() => setNavOpen(false)} className="py-2 text-stone-300">Blog</Link>
               <Link href="/es/auth/login" onClick={() => setNavOpen(false)} className="py-2 text-stone-300">Entrar</Link>
               <Link href="/es/prices" onClick={() => { setNavOpen(false); trackCTA("Nav Mobile CTA"); }} className="bg-brand-gold text-brand-green-deeper font-bold px-4 py-3 rounded-lg text-center">
                 7 días gratis
