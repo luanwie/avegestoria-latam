@@ -32,45 +32,40 @@ export async function generateMetadata({
 }
 
 function renderMarkdown(md: string): string {
-  let html = md;
-
-  // Code blocks first (preserve their content from further processing)
-  html = html.replace(/```([\s\S]*?)```/g,
-    '<pre class="bg-brand-green/20 border border-brand-green/30 rounded-lg p-4 my-4 overflow-x-auto text-xs text-stone-300 font-mono leading-relaxed">$1</pre>'
-  );
-
-  // ### headers (must run BEFORE ##)
-  html = html.replace(/^### (.+)$/gm,
-    '<h3 class="text-lg font-bold text-stone-100 mt-8 mb-3">$1</h3>'
-  );
-
-  // ## headers
-  html = html.replace(/^## (.+)$/gm,
-    '<h2 class="text-xl font-bold text-stone-100 mt-10 mb-4">$1</h2>'
-  );
-
-  // Bold
-  html = html.replace(/\*\*(.+?)\*\*/g,
-    '<strong class="text-stone-200 font-semibold">$1</strong>'
-  );
-
-  // Ordered lists
-  html = html.replace(/^(\d+)\. (.+)$/gm,
-    '<li class="ml-4 mb-1"><span class="text-stone-200 font-medium">$1.</span> $2</li>'
-  );
-
-  // Split by double newlines and wrap each block in <p>
-  const blocks = html.split(/\n\n+/);
-  html = blocks.map((block) => {
+  // Simple conversion: split by double-newline, wrap in <p>, handle headers
+  const blocks = md.split(/\n\n+/);
+  return blocks.map((block) => {
     const trimmed = block.trim();
-    if (!trimmed) return "";
-    // Skip blocks that are already HTML tags (headers, lists, pre)
-    if (/^<(h[23]|pre|li|ul|ol)/.test(trimmed)) return trimmed;
-    // Wrap in <p>
-    return `<p class="text-sm text-stone-400 leading-relaxed mb-4">${trimmed}</p>`;
-  }).join("\n");
+    if (!trimmed) return '';
 
-  return html;
+    // ### headers (check BEFORE ##)
+    const h3Match = trimmed.match(/^### (.+)$/);
+    if (h3Match) return '<h3 class="text-lg font-bold text-stone-100 mt-8 mb-3">' + h3Match[1] + '</h3>';
+
+    // ## headers
+    const h2Match = trimmed.match(/^## (.+)$/);
+    if (h2Match) return '<h2 class="text-xl font-bold text-stone-100 mt-10 mb-4">' + h2Match[1] + '</h2>';
+
+    // Code blocks (inline)
+    if (trimmed.startsWith('`') && trimmed.endsWith('`')) {
+      return '<pre class="bg-brand-green/20 border border-brand-green/30 rounded-lg p-4 my-4 overflow-x-auto text-xs text-stone-300 font-mono leading-relaxed">' +
+        trimmed.replace(/`/g, '') + '</pre>';
+    }
+
+    // Ordered list items
+    const listMatch = trimmed.match(/^(\d+)\. (.+)$/);
+    if (listMatch) {
+      return '<li class="ml-4 mb-1"><span class="text-stone-200 font-medium">' + listMatch[1] + '.</span> ' + listMatch[2] + '</li>';
+    }
+
+    // Bold inline
+    const withBold = trimmed.replace(/\*\*(.+?)\*\*/g,
+      '<strong class="text-stone-200 font-semibold">$1</strong>'
+    );
+
+    // Wrap in <p>
+    return '<p class="text-sm text-stone-400 leading-relaxed mb-4">' + withBold + '</p>';
+  }).join('\n');
 }
 
 export default async function BlogPostPage({
