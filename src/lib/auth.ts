@@ -43,12 +43,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user, trigger }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
       }
-      // Always fetch fresh role from DB on sign-in
-      if (trigger === "signIn" || !token.role) {
+      // Always sync role + plan from DB
+      if (token.id) {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { id: token.id as string },
@@ -59,7 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             token.plan = dbUser.plan;
           }
         } catch {
-          // keep existing token
+          // keep existing token values
         }
       }
       return token;
