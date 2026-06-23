@@ -10,6 +10,70 @@ export interface BlogPost {
 
 const posts: BlogPost[] = [
   {
+    slug: "como-proteger-granja-caida-precio-huevo-estrategias",
+    title: "¿Cómo Proteger tu Granja Cuando el Precio del Huevo se Desploma?",
+    description:
+      "Descubre 3 estrategias para proteger tu granja cuando el precio del huevo cae. Aprende a calcular tu costo real por huevo e identificar lotes deficitarios a tiempo.",
+    date: "2026-06-23",
+    category: "Mercado",
+    keywords: [
+      "precio del huevo bajo",
+      "crisis avícola sobreproducción",
+      "cómo reducir costos granja ponedoras",
+      "rentabilidad huevo precio bajo",
+      "cuándo vender lote gallinas",
+      "manejo crisis mercado avícola",
+      "costo producción huevo Latinoamérica",
+    ],
+    content: `¿Cuánto está perdiendo realmente tu granja cuando el precio del huevo se desploma? La respuesta depende de un solo número: tu costo de producción por huevo. Si no lo conoces con precisión, estás tomando decisiones a ciegas mientras el mercado te come el margen.
+
+## ¿Por qué cae el precio del huevo?
+
+El mercado del huevo en Latinoamérica es cíclico. Cuando los precios suben, los productores aumentan sus planteles. Seis meses después, cuando esas aves entran en producción, hay más huevo del que el mercado puede absorber y los precios se desploman. Es la historia de siempre, repetida en México, Colombia, Perú y toda la región.
+
+En México, el kilo de huevo blanco promediaba 39 pesos a inicios de 2026, con variaciones regionales entre 30 y 55 pesos. Para un productor con costo de producción de 34 pesos por kilo, vender a 30 significa perder 4 pesos en cada kilo. Multiplica eso por los 3.000 kilos mensuales de un lote mediano: son **$12.000 pesos de pérdida al mes** en un solo lote.
+
+Y no es solo sobreproducción. En Chile, 600.000 gallinas fueron sacrificadas en marzo de 2026 por un brote de influenza aviar H5N1. En otras regiones, el costo del maíz y la soya sigue apretando los márgenes. El resultado: productores vendiendo aves a precio de remate porque "es preferible perder un dedo antes que la mano".
+
+## 3 estrategias para proteger tu granja
+
+### 1. Conoce tu costo real por huevo
+
+Sin este número no puedes tomar ninguna decisión. Tu costo por huevo incluye:
+
+1. **Ración:** entre el 65% y 87% del costo total
+2. **Mortalidad:** aves perdidas y su costo de reposición
+3. **Mano de obra:** aunque sea familiar, tiene un costo real
+4. **Sanidad:** vacunas, medicinas, desinfectantes
+5. **Servicios:** electricidad, agua, mantenimiento del galpón
+
+La mayoría de los productores subestima sus costos porque no registra todo. Con AveGestoria puedes registrar cada gasto diariamente y obtener tu costo real por huevo calculado automáticamente, sin planillas ni fórmulas manuales.
+
+### 2. Identifica lotes deficitarios y actúa
+
+No todos los lotes pierden dinero al mismo tiempo. Un lote joven en pico de postura puede seguir siendo rentable incluso con precios bajos. Un lote viejo con FCR alto probablemente ya está en números rojos.
+
+¿Cómo saber cuál es cuál? Necesitas el lucro neto por lote actualizado en tiempo real. AveGestoria calcula esto automáticamente y te muestra en un dashboard qué lotes están ganando y cuáles están perdiendo. Así sabes exactamente dónde cortar, sin emociones ni corazonadas.
+
+### 3. Ajusta sin sacrificar postura
+
+Cuando los márgenes se aprietan, la tentación es comprar ración más barata. Cuidado: una fórmula de menor calidad puede desplomar tu tasa de postura en semanas, y recuperar esa producción te costará más de lo que ahorraste.
+
+En lugar de eso, monitorea tu FCR diariamente. Si el FCR se desvía de la curva esperada para la genética de tu lote, actúa de inmediato. AveGestoria te envía alertas automáticas cuando el FCR o la tasa de postura se salen de los parámetros normales, para que corrijas antes de que la pérdida se acumule.
+
+## ¿Cuándo conviene reducir el plantel?
+
+No hay una respuesta única, pero sí una regla práctica: si un lote tiene más de 70 semanas y su lucro neto es negativo durante dos semanas consecutivas, probablemente es momento de venderlo.
+
+El error más común es esperar "a que el precio mejore". Si tu costo de producción está por encima del precio de venta, cada día que mantienes ese lote estás acumulando pérdidas. Los productores que sobreviven a las crisis de precio no son los que tienen más suerte: son los que conocen sus números y actúan rápido.
+
+## El dato que define todo
+
+Tu costo de producción por huevo. Si no lo sabes con precisión, no sabes si estás ganando o perdiendo. Y en un mercado con precios tan volátiles como el actual, ese dato es la diferencia entre sobrevivir y quebrar.
+
+Prueba AveGestoria 7 días gratis. Registra tus datos reales durante una semana y obtén tu costo por huevo calculado automáticamente. Sin fórmulas, sin planillas, sin sorpresas a fin de mes.`,
+  },
+  {
     slug: "como-calcular-rentabilidad-por-lote-granja-ponedoras",
     title: "Cómo Calcular la Rentabilidad Real por Lote en tu Granja de Ponedoras",
     description:
