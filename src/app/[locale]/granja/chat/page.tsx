@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import { Send, Bot, User, AlertCircle } from "lucide-react";
+import { useRequirePlan } from "@/hooks/useRequirePlan";
 
 type Message = {
   role: "user" | "assistant";
@@ -10,6 +11,7 @@ type Message = {
 };
 
 export default function ChatPage() {
+  useRequirePlan("profesional");
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
@@ -149,7 +151,7 @@ export default function ChatPage() {
           </button>
         </div>
         <p className="text-[10px] text-stone-600 mt-2 text-center">
-          Limitado a 50 preguntas/día · DeepSeek
+          Limitado a 30 preguntas/semana · DeepSeek
         </p>
       </div>
     </DashboardShell>

@@ -17,20 +17,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Mensaje requerido" }, { status: 400 });
     }
 
-    // ── Rate limit: 50 requests per day ──
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
+    // ── Plan check: only profesional+ ──
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { plan: true },
+    });
+    const plan = user?.plan || "none";
+    if (plan !== "profesional" && plan !== "profesional_plus") {
+      return NextResponse.json({
+        reply: "🔒 El Chat IA está disponible a partir del plan Profesional. Actualiza tu plan para acceder.",
+      });
+    }
 
-    const dailyCount = await prisma.chatLog.count({
+    // ── Rate limit: 30 messages per week ──
+    const now = new Date();
+    const weekStart = new Date(now);
+    weekStart.setDate(now.getDate() - now.getDay()); // Sunday
+    weekStart.setHours(0, 0, 0, 0);
+
+    const weeklyCount = await prisma.chatLog.count({
       where: {
         userId,
-        createdAt: { gte: todayStart },
+        createdAt: { gte: weekStart },
       },
     });
 
-    if (dailyCount >= 50) {
+    if (weeklyCount >= 30) {
       return NextResponse.json({
-        reply: "⚠️ Has alcanzado el límite de 50 preguntas por día. Vuelve mañana o actualiza tu plan.",
+        reply: "⚠️ Has alcanzado el límite de 30 preguntas por semana. El límite se reinicia el domingo.",
       });
     }
 

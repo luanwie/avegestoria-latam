@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Plus, Pencil, Trash2, Search } from "lucide-react";
 import DashboardShell from "@/components/dashboard/DashboardShell";
+import { useRequirePlan } from "@/hooks/useRequirePlan";
 
 interface Lote {
   id: string;
@@ -57,6 +58,7 @@ function getPeriodDates(period: string): { desde: string; hasta: string } {
 }
 
 export default function ProduccionListPage() {
+  useRequirePlan("profesional");
   const router = useRouter();
   const searchParams = useSearchParams();
 

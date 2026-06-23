@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import { Plus, Pencil, Trash2, X, Check } from "lucide-react";
+import { useRequirePlan } from "@/hooks/useRequirePlan";
 
 type Lote = {
   id: string;
@@ -21,6 +22,7 @@ type Lote = {
 type Option = { id: string; nombre: string };
 
 export default function LotesPage() {
+  useRequirePlan("profesional");
   const [lotes, setLotes] = useState<Lote[]>([]);
   const [galpones, setGalpones] = useState<Option[]>([]);
   const [razas, setRazas] = useState<Option[]>([]);

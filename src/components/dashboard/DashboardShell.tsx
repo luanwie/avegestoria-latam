@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { LayoutDashboard, LogOut, Menu, X } from "lucide-react";
 import type { NavLink } from "./links";
-import { hubLinks } from "./links";
+import { hubLinks, getPlanLinks } from "./links";
 
 export default function DashboardShell({
   children,
@@ -17,7 +18,12 @@ export default function DashboardShell({
   links?: NavLink[];
 }) {
   const pathname = usePathname();
-  const navLinks = links || hubLinks;
+  const { data: session } = useSession();
+
+  // Determine links: passed prop > plan-based > default hubLinks
+  const plan = (session?.user as { plan?: string } | undefined)?.plan || "none";
+  const role = (session?.user as { role?: string } | undefined)?.role;
+  const navLinks = links || getPlanLinks(plan, role);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isTouch, setTouch] = useState(true);
   useEffect(() => setTouch(false), []);

@@ -17,13 +17,16 @@ model User {
   emailVerified DateTime?
   image         String?
   passwordHash  String?
-  role          String    @default("user") // user | admin
-  nombreGranja  String?
-  ciudad        String?
-  pais          String?
-  moneda        String?   // BRL, COP, CLP, ARS, USD
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  role           String    @default("user") // user | admin
+  plan           String    @default("none") // none | esencial | profesional | profesional_plus
+  dataShared     Boolean   @default(false) @map("data_shared")
+  whatsappNumber String?   @map("whatsapp_number")
+  nombreGranja   String?
+  ciudad         String?
+  pais           String?
+  moneda         String?   // BRL, COP, CLP, ARS, USD
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   accounts Account[]
   sessions Session[]
@@ -225,4 +228,26 @@ model ChatLog {
 
   @@index([userId, createdAt])
   @@map("chat_logs")
+}
+
+model Waitlist {
+  id         String   @id @default(cuid())
+  email      String
+  phone      String
+  granjaName String   @map("granja_name")
+  plan       String   @default("profesional_plus")
+  createdAt  DateTime @default(now())
+
+  @@map("waitlist")
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  section   String?
+  ctaClick  String?  @map("cta_click")
+  createdAt DateTime @default(now())
+
+  @@index([path, createdAt])
+  @@map("page_views")
 }

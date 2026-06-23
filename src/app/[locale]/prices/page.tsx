@@ -11,28 +11,42 @@ const plans = [
     id: "esencial",
     name: "Esencial",
     price: "9.99",
-    desc: "Gestión completa para empezar",
+    desc: "Control financiero para granjas pequeñas",
     popular: false,
     features: [
-      "Gestión de lotes y galpones",
-      "Control de producción de huevos",
       "Gestión financiera completa",
+      "Control de ventas y clientes",
+      "Dashboard de ingresos y gastos",
       "Informes PDF y Excel",
-      "Hasta 3 colaboradores",
     ],
   },
   {
     id: "profesional",
     name: "Profesional",
     price: "19.99",
-    desc: "Todo el poder de la IA",
+    desc: "IA + Consultoría WhatsApp",
     popular: true,
     features: [
       "Todo del plan Esencial",
-      "Chat inteligente con IA",
+      "Chat inteligente con IA (30/sem)",
+      "Consultoría vía WhatsApp",
       "Predicciones de producción",
-      "Alertas inteligentes",
-      "Colaboradores ilimitados",
+      "Acceso del consultor a tus datos",
+    ],
+  },
+  {
+    id: "profesional_plus",
+    name: "Profesional+",
+    price: "39.99",
+    desc: "Para granjas con +50k gallinas",
+    popular: false,
+    waitlist: true,
+    features: [
+      "Todo del plan Profesional",
+      "Control de ración y producción",
+      "CRM de clientes completo",
+      "Calculadora de ROI",
+      "WhatsApp para empleados",
     ],
   },
 ];
@@ -135,7 +149,7 @@ export default function PricesPage() {
           </motion.div>
 
           {/* Plans */}
-          <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {plans.map((plan, i) => (
               <motion.div
                 key={plan.id}
@@ -154,14 +168,21 @@ export default function PricesPage() {
                     MÁS POPULAR
                   </div>
                 )}
+                {"waitlist" in plan && (plan as { waitlist?: boolean }).waitlist && (
+                  <div className="inline-flex items-center gap-1 bg-brand-gold/10 text-brand-gold text-[10px] font-bold px-3 py-1 rounded-full mb-4 border border-brand-gold/30">
+                    <Zap className="w-3 h-3" /> LISTA DE ESPERA
+                  </div>
+                )}
                 <h3 className="text-xl font-bold text-stone-100 mb-1">{plan.name}</h3>
                 <p className="text-sm text-stone-500 mb-4">{plan.desc}</p>
                 <div className="mb-6">
                   <span className="text-4xl font-bold text-stone-100">${plan.price}</span>
                   <span className="text-stone-500 text-sm">/mes</span>
-                  <p className="text-xs text-stone-600 mt-1">
-                    o <strong className="text-stone-400">$99.90/año</strong> (17% descuento)
-                  </p>
+                  {plan.id !== "profesional_plus" && (
+                    <p className="text-xs text-stone-600 mt-1">
+                      o <strong className="text-stone-400">$99.90/año</strong> (17% descuento)
+                    </p>
+                  )}
                 </div>
 
                 <h4 className="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-3">
@@ -176,17 +197,26 @@ export default function PricesPage() {
                   ))}
                 </ul>
 
-                <button
-                  onClick={() => handleSelectPlan(plan.id)}
-                  disabled={loading}
-                  className={`w-full text-center py-3 rounded-xl text-sm font-bold transition-all ${
-                    plan.popular
-                      ? "bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper shadow-lg shadow-brand-gold/20"
-                      : "border border-brand-green hover:border-brand-gold/50 text-stone-300"
-                  }`}
-                >
-                  {loading ? "Redirigiendo..." : `7 días gratis`}
-                </button>
+                {"waitlist" in plan && (plan as { waitlist?: boolean }).waitlist ? (
+                  <Link
+                    href="/es/waitlist"
+                    className="w-full block text-center py-3 rounded-xl text-sm font-bold transition-all border border-brand-gold/50 text-brand-gold hover:bg-brand-gold/10"
+                  >
+                    Unirse a la lista
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => handleSelectPlan(plan.id)}
+                    disabled={loading}
+                    className={`w-full text-center py-3 rounded-xl text-sm font-bold transition-all ${
+                      plan.popular
+                        ? "bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper shadow-lg shadow-brand-gold/20"
+                        : "border border-brand-green hover:border-brand-gold/50 text-stone-300"
+                    }`}
+                  >
+                    {loading ? "Redirigiendo..." : `7 días gratis`}
+                  </button>
+                )}
 
                 <div className="mt-4 space-y-2">
                   <div className="flex items-center gap-2 text-[11px] text-stone-500">

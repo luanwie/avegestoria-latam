@@ -8,6 +8,8 @@ import {
   DollarSign,
   FileText,
   MessageSquareMore,
+  UserCircle,
+  ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
 
@@ -26,14 +28,28 @@ export const hubLinks: NavLink[] = [
   { label: "Finanzas", icon: DollarSign, href: "/es/granja/finanzas" },
   { label: "Informes", icon: FileText, href: "/es/granja/informes" },
   { label: "Chat IA", icon: MessageSquareMore, href: "/es/granja/chat" },
+  { label: "Perfil", icon: UserCircle, href: "/es/perfil" },
 ];
 
-export const defaultLinks: NavLink[] = [
+// Plan-specific sidebar links
+export const esencialLinks: NavLink[] = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/es/dashboard" },
-  { label: "Registrar", icon: ClipboardList, href: "#" },
-  { label: "Producción", icon: Egg, href: "#" },
-  { label: "Finanzas", icon: DollarSign, href: "#" },
-  { label: "Inventario", icon: Warehouse, href: "#" },
-  { label: "Equipo", icon: Users, href: "#" },
-  { label: "Informes", icon: FileText, href: "#" },
+  { label: "Finanzas", icon: DollarSign, href: "/es/granja/finanzas" },
+  { label: "Perfil", icon: UserCircle, href: "/es/perfil" },
 ];
+
+export const adminLinks: NavLink[] = [
+  ...hubLinks,
+  { label: "Admin", icon: ShieldCheck, href: "/es/admin" },
+];
+
+export const adminEsencialLinks: NavLink[] = [
+  ...esencialLinks,
+  { label: "Admin", icon: ShieldCheck, href: "/es/admin" },
+];
+
+export function getPlanLinks(plan: string, role?: string): NavLink[] {
+  const isAdmin = role === "admin";
+  if (plan === "esencial") return isAdmin ? adminEsencialLinks : esencialLinks;
+  return isAdmin ? adminLinks : hubLinks;
+}

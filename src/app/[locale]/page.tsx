@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { Menu, X, ChevronDown, ArrowRight, ShieldCheck, TrendingUp, Brain, Egg, BarChart3, Bell, MessageCircle, Check, Star, Zap, Sparkles, Target, DollarSign } from "lucide-react";
+import { trackCTA } from "@/components/seo/PageViewTracker";
 import ParticleField from "@/components/ui/ParticleField";
 import Hero3D from "@/components/ui/Hero3D";
 import TiltCard from "@/components/ui/TiltCard";
@@ -28,12 +29,16 @@ const features = [
 
 const plans = [
   {
-    id: "esencial", name: "Esencial", price: "9.99", desc: "Gestión completa para empezar", popular: false,
-    features: ["Gestión de lotes y galpones", "Control de producción", "Gestión financiera", "Informes PDF y Excel", "Hasta 3 colaboradores"],
+    id: "esencial", name: "Esencial", price: "9.99", desc: "Control financiero para granjas pequeñas", popular: false,
+    features: ["Gestión financiera completa", "Control de ventas y clientes", "Dashboard de ingresos y gastos", "Informes PDF y Excel"],
   },
   {
-    id: "profesional", name: "Profesional", price: "19.99", desc: "Todo el poder de la IA", popular: true,
-    features: ["Todo del plan Esencial", "Chat inteligente con IA", "Predicciones de producción", "Alertas inteligentes", "Colaboradores ilimitados"],
+    id: "profesional", name: "Profesional", price: "19.99", desc: "IA + Consultoría WhatsApp", popular: true,
+    features: ["Todo del plan Esencial", "Chat inteligente con IA (30/sem)", "Consultoría vía WhatsApp", "Predicciones de producción", "Acceso del consultor a tus datos"],
+  },
+  {
+    id: "profesional_plus", name: "Profesional+", price: "39.99", desc: "Para granjas con +50k gallinas", popular: false, waitlist: true,
+    features: ["Todo del plan Profesional", "Control de ración y producción", "CRM de clientes completo", "Calculadora de ROI", "WhatsApp para empleados"],
   },
 ];
 
@@ -68,7 +73,7 @@ export default function LandingPage() {
             <a href="#pricing" className="text-stone-400 hover:text-brand-gold transition-colors">Precios</a>
             <Link href="/es/demo" className="text-stone-400 hover:text-brand-gold transition-colors">Demo</Link>
             <Link href="/es/auth/login" className="text-stone-400 hover:text-brand-gold transition-colors">Entrar</Link>
-            <Link href="/es/prices" className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-lg shadow-brand-gold/20">
+            <Link href="/es/prices" onClick={() => trackCTA("Navbar Probar gratis")} className="bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-lg shadow-brand-gold/20">
               Probar gratis
             </Link>
           </div>
@@ -354,7 +359,7 @@ export default function LandingPage() {
                 </span>
               </motion.div>
 
-              <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 {plans.map((plan, i) => (
                   <ScrollReveal key={plan.id} delay={i * 0.12}>
                     <TiltCard maxTilt={8} scale={1.03} className={`rounded-2xl p-6 sm:p-8 text-left border transition-all ${
@@ -367,14 +372,21 @@ export default function LandingPage() {
                           <Star className="w-3 h-3" /> MÁS POPULAR
                         </div>
                       )}
+                      {"waitlist" in plan && plan.waitlist && (
+                        <div className="inline-flex items-center gap-1 bg-brand-gold/10 text-brand-gold text-[10px] font-bold px-3 py-1 rounded-full mb-4 border border-brand-gold/30">
+                          <Zap className="w-3 h-3" /> LISTA DE ESPERA
+                        </div>
+                      )}
                       <h3 className="text-xl font-bold text-stone-100 mb-1">{plan.name}</h3>
                       <p className="text-sm text-stone-500 mb-4">{plan.desc}</p>
                       <div className="mb-6">
                         <span className="text-4xl font-bold text-stone-100">${plan.price}</span>
                         <span className="text-stone-500 text-sm">/mes</span>
-                        <p className="text-xs text-stone-600 mt-1">
-                          o <strong className="text-stone-400">${(parseInt(plan.price) * 10).toFixed(2)}/año</strong> (17% desc.)
-                        </p>
+                        {"waitlist" in plan && plan.waitlist ? null : (
+                          <p className="text-xs text-stone-600 mt-1">
+                            o <strong className="text-stone-400">${(parseInt(plan.price) * 10).toFixed(2)}/año</strong> (17% desc.)
+                          </p>
+                        )}
                       </div>
                       <ul className="space-y-3 mb-8">
                         {plan.features.map((f, j) => (
@@ -384,16 +396,25 @@ export default function LandingPage() {
                           </li>
                         ))}
                       </ul>
-                      <Link
-                        href="/es/prices"
-                        className={`block text-center py-3 rounded-xl text-sm font-bold transition-all ${
-                          plan.popular
-                            ? "bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper shadow-lg shadow-brand-gold/20"
-                            : "border border-brand-green hover:border-brand-gold/50 text-stone-300"
-                        }`}
-                      >
-                        7 días gratis
-                      </Link>
+                      {"waitlist" in plan && plan.waitlist ? (
+                        <Link
+                          href="/es/waitlist"
+                          className="block text-center py-3 rounded-xl text-sm font-bold transition-all border border-brand-gold/50 text-brand-gold hover:bg-brand-gold/10"
+                        >
+                          Unirse a la lista
+                        </Link>
+                      ) : (
+                        <Link
+                          href="/es/prices"
+                          className={`block text-center py-3 rounded-xl text-sm font-bold transition-all ${
+                            plan.popular
+                              ? "bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper shadow-lg shadow-brand-gold/20"
+                              : "border border-brand-green hover:border-brand-gold/50 text-stone-300"
+                          }`}
+                        >
+                          7 días gratis
+                        </Link>
+                      )}
                       <p className="text-[10px] text-stone-600 text-center mt-2">Garantía 7 días • Cancela cuando quieras</p>
                     </TiltCard>
                   </ScrollReveal>

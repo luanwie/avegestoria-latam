@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import { Plus, Pencil, Trash2, X, Check, Building2 } from "lucide-react";
+import { useRequirePlan } from "@/hooks/useRequirePlan";
 
 type Galpon = {
   id: string;
@@ -13,6 +14,7 @@ type Galpon = {
 };
 
 export default function GalponesPage() {
+  useRequirePlan("profesional");
   const [galpones, setGalpones] = useState<Galpon[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);

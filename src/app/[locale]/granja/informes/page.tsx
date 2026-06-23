@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import Link from "next/link";
 import { FileText, BarChart3, DollarSign } from "lucide-react";
+import { useRequirePlan } from "@/hooks/useRequirePlan";
 
 const reports = [
   {
@@ -30,6 +31,7 @@ const reports = [
 ];
 
 export default function InformesHub() {
+  useRequirePlan("profesional");
   return (
     <DashboardShell>
       <div className="max-w-4xl mx-auto">

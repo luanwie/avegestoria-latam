@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import "../globals.css";
 import { AgroGreenTheme } from "@/components/ui/theme-provider";
 import { GoogleAnalytics } from "@/components/seo/GoogleAnalytics";
+import { PageViewTracker } from "@/components/seo/PageViewTracker";
 import AuthProvider from "@/components/auth/AuthProvider";
 
 export async function generateMetadata() {
@@ -68,6 +69,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <AgroGreenTheme />
+            <PageViewTracker />
             {children}
           </AuthProvider>
           <Toaster

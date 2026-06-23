@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import { Plus, Pencil, Trash2, X, Check } from "lucide-react";
+import { useRequirePlan } from "@/hooks/useRequirePlan";
 
 type Raza = {
   id: string;
@@ -12,6 +13,7 @@ type Raza = {
 };
 
 export default function RazasPage() {
+  useRequirePlan("profesional");
   const [razas, setRazas] = useState<Raza[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
