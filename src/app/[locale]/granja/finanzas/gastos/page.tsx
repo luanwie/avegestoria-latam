@@ -2,45 +2,34 @@
 
 import { useState, useEffect } from "react";
 import DashboardShell from "@/components/dashboard/DashboardShell";
-import { Plus, Pencil, Trash2, X, Check, Search, Filter } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Check, Search } from "lucide-react";
 
-type Gasto = {
-  id: string;
-  loteId: string | null;
-  loteNombre: string | null;
-  categoria: string;
-  fecha: string;
-  monto: number;
-  descripcion: string | null;
-};
-
+type Gasto = { id: string; loteId: string | null; loteNombre: string | null; categoria: string; fecha: string; monto: number; descripcion: string | null; };
 type LoteOption = { id: string; nombre: string };
 
-const CATEGORY_COLORS: Record<string, string> = {
-  racion: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-  medicinas: "bg-rose-500/20 text-rose-400 border-rose-500/30",
-  vacunas: "bg-purple-500/20 text-purple-400 border-purple-500/30",
-  electricidad: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  agua: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
-  mantenimiento: "bg-orange-500/20 text-orange-400 border-orange-500/30",
-  transporte: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-  mano_obra: "bg-pink-500/20 text-pink-400 border-pink-500/30",
-  otro: "bg-stone-500/20 text-stone-400 border-stone-500/30",
-};
+const CATEGORIAS = [
+  { id: "racion", label: "Ración", icon: "🥩", color: "border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10 text-amber-400" },
+  { id: "medicinas", label: "Medicinas", icon: "💊", color: "border-rose-500/30 bg-rose-500/5 hover:bg-rose-500/10 text-rose-400" },
+  { id: "vacunas", label: "Vacunas", icon: "💉", color: "border-purple-500/30 bg-purple-500/5 hover:bg-purple-500/10 text-purple-400" },
+  { id: "electricidad", label: "Electricidad", icon: "⚡", color: "border-blue-500/30 bg-blue-500/5 hover:bg-blue-500/10 text-blue-400" },
+  { id: "agua", label: "Agua", icon: "💧", color: "border-cyan-500/30 bg-cyan-500/5 hover:bg-cyan-500/10 text-cyan-400" },
+  { id: "mantenimiento", label: "Mantenimiento", icon: "🔧", color: "border-orange-500/30 bg-orange-500/5 hover:bg-orange-500/10 text-orange-400" },
+  { id: "transporte", label: "Transporte", icon: "🚚", color: "border-yellow-500/30 bg-yellow-500/5 hover:bg-yellow-500/10 text-yellow-400" },
+  { id: "mano_obra", label: "Mano de obra", icon: "👷", color: "border-pink-500/30 bg-pink-500/5 hover:bg-pink-500/10 text-pink-400" },
+  { id: "otro", label: "Otro", icon: "📦", color: "border-stone-500/30 bg-stone-500/5 hover:bg-stone-500/10 text-stone-400" },
+];
 
-const CATEGORY_LABELS: Record<string, string> = {
-  racion: "Ración",
-  medicinas: "Medicinas",
-  vacunas: "Vacunas",
-  electricidad: "Electricidad",
-  agua: "Agua",
-  mantenimiento: "Mantenimiento",
-  transporte: "Transporte",
-  mano_obra: "Mano de Obra",
-  otro: "Otros",
+const CAT_BADGE: Record<string, string> = {
+  racion: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+  medicinas: "bg-rose-500/10 text-rose-400 border-rose-500/20",
+  vacunas: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+  electricidad: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+  agua: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
+  mantenimiento: "bg-orange-500/10 text-orange-400 border-orange-500/20",
+  transporte: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
+  mano_obra: "bg-pink-500/10 text-pink-400 border-pink-500/20",
+  otro: "bg-stone-500/10 text-stone-400 border-stone-500/20",
 };
-
-const CATEGORIAS = Object.keys(CATEGORY_COLORS);
 
 export default function GastosPage() {
   const [gastos, setGastos] = useState<Gasto[]>([]);
@@ -48,360 +37,149 @@ export default function GastosPage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [filterLote, setFilterLote] = useState("");
+  const [searchCat, setSearchCat] = useState("");
 
   // Form state
-  const [formLoteId, setFormLoteId] = useState("");
-  const [formCategoria, setFormCategoria] = useState("racion");
-  const [formFecha, setFormFecha] = useState(new Date().toISOString().split("T")[0]);
-  const [formMonto, setFormMonto] = useState("");
-  const [formDescripcion, setFormDescripcion] = useState("");
+  const [categoria, setCategoria] = useState("racion");
+  const [monto, setMonto] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [loteId, setLoteId] = useState("");
+  const [fecha, setFecha] = useState(new Date().toISOString().split("T")[0]);
+  const [saving, setSaving] = useState(false);
 
   const fetchGastos = () => {
-    const params = new URLSearchParams();
-    if (filterLote) params.set("loteId", filterLote);
-    fetch(`/api/granja/finanzas/gastos?${params}`)
-      .then((r) => r.json())
-      .then(setGastos)
-      .catch(() => {});
-  };
-
-  const fetchLotes = () => {
-    fetch("/api/granja/lotes")
-      .then((r) => r.json())
-      .then((data) => {
-        // Handle both array and {lotes: [...]} response shapes
-        const list = Array.isArray(data) ? data : data.lotes || [];
-        setLotes(list);
-      })
-      .catch(() => {});
+    fetch("/api/granja/finanzas/gastos").then((r) => r.json()).then((d) => setGastos(Array.isArray(d) ? d : d.gastos || [])).catch(() => {});
   };
 
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      fetch("/api/granja/finanzas/gastos")
-        .then((r) => r.json())
-        .then(setGastos),
-      fetch("/api/granja/lotes")
-        .then((r) => r.json())
-        .then((data) => {
-          const list = Array.isArray(data) ? data : data.lotes || [];
-          setLotes(list);
-        }),
-    ]).finally(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+      fetch("/api/granja/finanzas/gastos").then((r) => r.json()),
+      fetch("/api/granja/lotes").then((r) => r.json()),
+    ]).then(([g, l]) => {
+      setGastos(Array.isArray(g) ? g : g.gastos || []);
+      setLotes(Array.isArray(l) ? l : l.lotes || []);
+    }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    fetchGastos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterLote]);
+  const resetForm = () => { setCategoria("racion"); setMonto(""); setDescripcion(""); setLoteId(""); setFecha(new Date().toISOString().split("T")[0]); setEditingId(null); setShowForm(false); setSearchCat(""); };
 
-  const resetForm = () => {
-    setFormLoteId("");
-    setFormCategoria("racion");
-    setFormFecha(new Date().toISOString().split("T")[0]);
-    setFormMonto("");
-    setFormDescripcion("");
-    setEditingId(null);
-    setShowForm(false);
-  };
-
-  const openEdit = (g: Gasto) => {
-    setFormLoteId(g.loteId || "");
-    setFormCategoria(g.categoria);
-    setFormFecha(g.fecha.split("T")[0]);
-    setFormMonto(g.monto.toString());
-    setFormDescripcion(g.descripcion || "");
-    setEditingId(g.id);
-    setShowForm(true);
+  const startEdit = (g: Gasto) => {
+    setEditingId(g.id); setCategoria(g.categoria); setMonto(g.monto.toString());
+    setDescripcion(g.descripcion || ""); setLoteId(g.loteId || "");
+    setFecha(g.fecha.split("T")[0]); setShowForm(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formFecha || !formMonto) return;
-
-    const body = {
-      loteId: formLoteId || null,
-      categoria: formCategoria,
-      fecha: formFecha,
-      monto: parseFloat(formMonto),
-      descripcion: formDescripcion || null,
-    };
-
-    const url = editingId
-      ? `/api/granja/finanzas/gastos/${editingId}`
-      : "/api/granja/finanzas/gastos";
+    if (!monto) return;
+    setSaving(true);
+    const url = editingId ? `/api/granja/finanzas/gastos/${editingId}` : "/api/granja/finanzas/gastos";
     const method = editingId ? "PUT" : "POST";
-
-    try {
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      if (res.ok) {
-        resetForm();
-        fetchGastos();
-      } else {
-        const err = await res.json();
-        alert(err.error || "Error al guardar");
-      }
-    } catch {
-      alert("Error al guardar gasto");
-    }
+    const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify({ categoria, monto: parseFloat(monto), descripcion: descripcion || null, loteId: loteId || null, fecha }) });
+    if (res.ok) { resetForm(); fetchGastos(); } else { alert("Error al guardar"); }
+    setSaving(false);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("¿Eliminar este gasto?")) return;
-    try {
-      const res = await fetch(`/api/granja/finanzas/gastos/${id}`, {
-        method: "DELETE",
-      });
-      if (res.ok) fetchGastos();
-    } catch {
-      alert("Error al eliminar");
-    }
-  };
+  const handleDelete = async (id: string) => { if (!confirm("¿Eliminar este gasto?")) return; await fetch(`/api/granja/finanzas/gastos/${id}`, { method: "DELETE" }); fetchGastos(); };
 
-  const formatDate = (iso: string) => {
-    const d = new Date(iso);
-    return d.toLocaleDateString("es", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  };
-
-  const totalGastos = gastos.reduce((s, g) => s + g.monto, 0);
+  const filteredCats = CATEGORIAS.filter((c) => c.label.toLowerCase().includes(searchCat.toLowerCase()));
 
   return (
     <DashboardShell>
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <div>
-          <h2 className="text-lg font-bold text-stone-100">Gastos</h2>
-          <p className="text-xs text-stone-500 mt-0.5">
-            {gastos.length} registro{gastos.length !== 1 ? "s" : ""} · Total: ${totalGastos.toLocaleString("es")}
-          </p>
+      <div className="max-w-4xl mx-auto space-y-5">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-stone-200 tracking-tight">Gastos</h2>
+          <button onClick={() => { resetForm(); setShowForm(true); }} className="text-[12px] bg-brand-gold/10 hover:bg-brand-gold/15 border border-brand-gold/20 px-4 py-2 rounded-lg text-brand-gold transition-colors flex items-center gap-1.5">
+            <Plus className="w-3.5 h-3.5" /> Nuevo Gasto
+          </button>
         </div>
-        <button
-          onClick={() => {
-            resetForm();
-            setShowForm(!showForm);
-          }}
-          className="inline-flex items-center gap-1.5 bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-4 py-2 rounded-lg text-xs font-medium transition-all"
-        >
-          {showForm ? <X className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
-          {showForm ? "Cancelar" : "Nuevo Gasto"}
-        </button>
-      </div>
 
-      {/* Filter */}
-      <div className="flex items-center gap-3 mb-4">
-        <Filter className="w-3.5 h-3.5 text-stone-500" />
-        <select
-          value={filterLote}
-          onChange={(e) => setFilterLote(e.target.value)}
-          className="w-full max-w-xs bg-emerald-950/60 border border-emerald-800/40 rounded-lg px-3 py-2 text-sm text-stone-200"
-        >
-          <option value="">Todos los lotes</option>
-          {lotes.map((l) => (
-            <option key={l.id} value={l.id}>
-              {l.nombre}
-            </option>
-          ))}
-        </select>
-      </div>
+        {/* Form */}
+        {showForm && (
+          <form onSubmit={handleSubmit} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-5 space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-medium text-stone-300">{editingId ? "Editar Gasto" : "Nuevo Gasto"}</h3>
+              <button type="button" onClick={resetForm} className="text-stone-500 hover:text-stone-300"><X className="w-4 h-4" /></button>
+            </div>
 
-      {/* Form */}
-      {showForm && (
-        <div className="bg-emerald-900/30 border border-emerald-800/30 rounded-xl p-5 mb-6">
-          <h3 className="text-sm font-semibold text-stone-200 mb-4">
-            {editingId ? "Editar Gasto" : "Nuevo Gasto"}
-          </h3>
-          <form onSubmit={handleSubmit} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Category grid with search */}
             <div>
-              <label className="block text-xs text-stone-400 mb-1">Categoría *</label>
-              <select
-                value={formCategoria}
-                onChange={(e) => setFormCategoria(e.target.value)}
-                className="w-full bg-emerald-950/60 border border-emerald-800/40 rounded-lg px-3 py-2 text-sm text-stone-200"
-                required
-              >
-                {CATEGORIAS.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {CATEGORY_LABELS[cat]}
-                  </option>
+              <div className="flex items-center gap-2 mb-3">
+                <Search className="w-3.5 h-3.5 text-stone-500" />
+                <input type="text" placeholder="Buscar categoría..." value={searchCat} onChange={(e) => setSearchCat(e.target.value)}
+                  className="flex-1 bg-transparent text-xs text-stone-300 placeholder:text-stone-600 focus:outline-none" />
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {filteredCats.map((cat) => (
+                  <button key={cat.id} type="button" onClick={() => setCategoria(cat.id)}
+                    className={`flex flex-col items-center gap-1 p-2.5 rounded-xl border transition-all text-[10px] ${cat.color} ${categoria === cat.id ? "ring-1 ring-brand-gold/40 scale-[1.02]" : ""}`}>
+                    <span className="text-base">{cat.icon}</span>
+                    {cat.label}
+                  </button>
                 ))}
-              </select>
+              </div>
+            </div>
+
+            {/* Amount + date + lote */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="sm:col-span-1">
+                <label className="text-[10px] text-stone-500 block mb-1">Monto ($)</label>
+                <input type="number" step="0.01" required value={monto} onChange={(e) => setMonto(e.target.value)}
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-brand-gold/30" />
+              </div>
+              <div>
+                <label className="text-[10px] text-stone-500 block mb-1">Fecha</label>
+                <input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)}
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-brand-gold/30" />
+              </div>
+              <div>
+                <label className="text-[10px] text-stone-500 block mb-1">Lote (opcional)</label>
+                <select value={loteId} onChange={(e) => setLoteId(e.target.value)}
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-brand-gold/30">
+                  <option value="">Sin lote</option>
+                  {lotes.map((l) => <option key={l.id} value={l.id}>{l.nombre}</option>)}
+                </select>
+              </div>
             </div>
             <div>
-              <label className="block text-xs text-stone-400 mb-1">Fecha *</label>
-              <input
-                type="date"
-                value={formFecha}
-                onChange={(e) => setFormFecha(e.target.value)}
-                className="w-full bg-emerald-950/60 border border-emerald-800/40 rounded-lg px-3 py-2 text-sm text-stone-200"
-                required
-              />
+              <label className="text-[10px] text-stone-500 block mb-1">Descripción (opcional)</label>
+              <input type="text" value={descripcion} onChange={(e) => setDescripcion(e.target.value)}
+                className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-brand-gold/30" />
             </div>
-            <div>
-              <label className="block text-xs text-stone-400 mb-1">Monto *</label>
-              <input
-                type="number"
-                step="0.01"
-                min="0"
-                value={formMonto}
-                onChange={(e) => setFormMonto(e.target.value)}
-                placeholder="0.00"
-                className="w-full bg-emerald-950/60 border border-emerald-800/40 rounded-lg px-3 py-2 text-sm text-stone-200"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-stone-400 mb-1">Lote</label>
-              <select
-                value={formLoteId}
-                onChange={(e) => setFormLoteId(e.target.value)}
-                className="w-full bg-emerald-950/60 border border-emerald-800/40 rounded-lg px-3 py-2 text-sm text-stone-200"
-              >
-                <option value="">Sin lote</option>
-                {lotes.map((l) => (
-                  <option key={l.id} value={l.id}>
-                    {l.nombre}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="sm:col-span-2 lg:col-span-4">
-              <label className="block text-xs text-stone-400 mb-1">Descripción</label>
-              <input
-                type="text"
-                value={formDescripcion}
-                onChange={(e) => setFormDescripcion(e.target.value)}
-                placeholder="Opcional"
-                className="w-full bg-emerald-950/60 border border-emerald-800/40 rounded-lg px-3 py-2 text-sm text-stone-200"
-              />
-            </div>
-            <div className="sm:col-span-2 lg:col-span-4 flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={resetForm}
-                className="bg-emerald-800/30 hover:bg-emerald-700/40 text-stone-300 px-4 py-2 rounded-lg text-xs transition-all"
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                className="inline-flex items-center gap-1.5 bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-4 py-2 rounded-lg text-xs font-medium transition-all"
-              >
-                {editingId ? (
-                  <>
-                    <Check className="w-3.5 h-3.5" />
-                    Actualizar
-                  </>
-                ) : (
-                  <>
-                    <Plus className="w-3.5 h-3.5" />
-                    Guardar
-                  </>
-                )}
-              </button>
-            </div>
+
+            <button type="submit" disabled={saving}
+              className="w-full py-2.5 rounded-xl bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-semibold text-sm transition-all disabled:opacity-50">
+              {saving ? "Guardando..." : editingId ? "Guardar cambios" : "Registrar gasto"}
+            </button>
           </form>
-        </div>
-      )}
+        )}
 
-      {/* Table */}
-      {loading ? (
-        <div className="flex items-center justify-center py-20">
-          <div className="w-full max-w-lg">
-            <div className="bg-emerald-900/30 border border-emerald-800/30 rounded-xl overflow-hidden animate-pulse">
-              <div className="bg-emerald-800/20 p-3">
-                <div className="flex gap-4">
-                  <div className="h-3 bg-emerald-800/40 rounded flex-1" />
-                  <div className="h-3 bg-emerald-800/40 rounded flex-1" />
-                  <div className="h-3 bg-emerald-800/40 rounded w-20" />
-                  <div className="h-3 bg-emerald-800/40 rounded w-16" />
+        {/* Gastos list */}
+        {loading ? <div className="py-10 text-center text-stone-500 text-sm">Cargando...</div> : gastos.length === 0 ? (
+          <div className="py-16 text-center text-stone-500 text-sm">Sin gastos registrados</div>
+        ) : (
+          <div className="space-y-2">
+            {gastos.map((g) => (
+              <div key={g.id} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 flex items-center justify-between hover:bg-white/[0.05] transition-colors">
+                <div className="flex items-center gap-3">
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full border ${CAT_BADGE[g.categoria] || CAT_BADGE.otro}`}>
+                    {CATEGORIAS.find((c) => c.id === g.categoria)?.label || g.categoria}
+                  </span>
+                  <div>
+                    <p className="text-sm text-stone-200 font-medium">${g.monto.toLocaleString()}</p>
+                    <p className="text-[10px] text-stone-500">{g.fecha.split("T")[0]}{g.loteNombre ? ` · ${g.loteNombre}` : ""}{g.descripcion ? ` · ${g.descripcion}` : ""}</p>
+                  </div>
+                </div>
+                <div className="flex gap-1">
+                  <button onClick={() => startEdit(g)} className="p-1.5 text-stone-500 hover:text-stone-300 transition-colors"><Pencil className="w-3.5 h-3.5" /></button>
+                  <button onClick={() => handleDelete(g.id)} className="p-1.5 text-stone-500 hover:text-red-400 transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>
                 </div>
               </div>
-              {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="flex gap-4 p-3 border-t border-emerald-800/20">
-                  <div className="h-3 bg-emerald-800/20 rounded flex-1" />
-                  <div className="h-3 bg-emerald-800/20 rounded flex-1" />
-                  <div className="h-3 bg-emerald-800/20 rounded w-20" />
-                  <div className="h-3 bg-emerald-800/20 rounded w-16" />
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
-        </div>
-      ) : gastos.length === 0 ? (
-        <div className="text-center py-20 text-stone-500 text-sm">
-          No hay gastos registrados
-        </div>
-      ) : (
-        <div className="bg-emerald-900/30 border border-emerald-800/30 rounded-xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs">
-              <thead className="bg-emerald-800/20">
-                <tr>
-                  <th className="px-3 py-2.5 text-left text-stone-400 font-medium">Fecha</th>
-                  <th className="px-3 py-2.5 text-left text-stone-400 font-medium">Categoría</th>
-                  <th className="px-3 py-2.5 text-left text-stone-400 font-medium">Lote</th>
-                  <th className="px-3 py-2.5 text-right text-stone-400 font-medium">Monto</th>
-                  <th className="px-3 py-2.5 text-left text-stone-400 font-medium">Descripción</th>
-                  <th className="px-3 py-2.5 text-right text-stone-400 font-medium">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {gastos.map((g) => (
-                  <tr key={g.id} className="border-t border-emerald-800/20 hover:bg-emerald-800/20">
-                    <td className="px-3 py-2.5 text-stone-200 whitespace-nowrap">{formatDate(g.fecha)}</td>
-                    <td className="px-3 py-2.5">
-                      <span
-                        className={`inline-block text-[10px] px-2 py-0.5 rounded-full border font-medium ${
-                          CATEGORY_COLORS[g.categoria] || CATEGORY_COLORS.otro
-                        }`}
-                      >
-                        {CATEGORY_LABELS[g.categoria] || g.categoria}
-                      </span>
-                    </td>
-                    <td className="px-3 py-2.5 text-stone-400">{g.loteNombre || "—"}</td>
-                    <td className="px-3 py-2.5 text-right text-stone-200 font-medium">
-                      ${g.monto.toLocaleString("es")}
-                    </td>
-                    <td className="px-3 py-2.5 text-stone-400 max-w-[200px] truncate">
-                      {g.descripcion || "—"}
-                    </td>
-                    <td className="px-3 py-2.5 text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <button
-                          onClick={() => openEdit(g)}
-                          className="p-1.5 rounded-lg hover:bg-emerald-700/30 text-stone-400 hover:text-stone-200 transition-all"
-                          title="Editar"
-                        >
-                          <Pencil className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(g.id)}
-                          className="p-1.5 rounded-lg hover:bg-red-900/30 text-stone-400 hover:text-red-400 transition-all"
-                          title="Eliminar"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </DashboardShell>
   );
 }
