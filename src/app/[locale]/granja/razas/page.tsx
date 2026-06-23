@@ -13,7 +13,7 @@ type Raza = {
 };
 
 export default function RazasPage() {
-  useRequirePlan("profesional");
+  useRequirePlan("esencial");
   const [razas, setRazas] = useState<Raza[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);

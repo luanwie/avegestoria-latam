@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Plus, Pencil, Trash2, Search } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, Warehouse, Egg, Dna } from "lucide-react";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import { useRequirePlan } from "@/hooks/useRequirePlan";
 
@@ -58,7 +58,7 @@ function getPeriodDates(period: string): { desde: string; hasta: string } {
 }
 
 export default function ProduccionListPage() {
-  useRequirePlan("profesional");
+  useRequirePlan("esencial");
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -163,7 +163,7 @@ export default function ProduccionListPage() {
   return (
     <DashboardShell>
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <h2 className="text-lg font-bold text-stone-100">
           Producción Diaria
         </h2>
@@ -174,6 +174,24 @@ export default function ProduccionListPage() {
           <Plus className="w-4 h-4" />
           Nuevo Registro
         </Link>
+      </div>
+
+      {/* Quick links: cadastros */}
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        {[
+          { label: "Galpones", icon: Warehouse, href: "/es/granja/galpones" },
+          { label: "Lotes", icon: Egg, href: "/es/granja/lotes" },
+          { label: "Razas", icon: Dna, href: "/es/granja/razas" },
+        ].map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="flex items-center justify-center gap-2 bg-brand-green/15 hover:bg-brand-green/25 border border-brand-green/30 rounded-lg px-3 py-2.5 text-xs text-stone-400 hover:text-stone-200 transition-all"
+          >
+            <item.icon className="w-3.5 h-3.5" />
+            {item.label}
+          </Link>
+        ))}
       </div>
 
       {/* Summary Cards */}

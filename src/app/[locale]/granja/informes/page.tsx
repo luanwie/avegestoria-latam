@@ -31,7 +31,7 @@ const reports = [
 ];
 
 export default function InformesHub() {
-  useRequirePlan("profesional");
+  useRequirePlan("esencial");
   return (
     <DashboardShell>
       <div className="max-w-4xl mx-auto">

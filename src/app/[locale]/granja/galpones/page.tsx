@@ -14,7 +14,7 @@ type Galpon = {
 };
 
 export default function GalponesPage() {
-  useRequirePlan("profesional");
+  useRequirePlan("esencial");
   const [galpones, setGalpones] = useState<Galpon[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);

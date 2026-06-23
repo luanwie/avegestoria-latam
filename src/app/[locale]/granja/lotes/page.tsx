@@ -22,7 +22,7 @@ type Lote = {
 type Option = { id: string; nombre: string };
 
 export default function LotesPage() {
-  useRequirePlan("profesional");
+  useRequirePlan("esencial");
   const [lotes, setLotes] = useState<Lote[]>([]);
   const [galpones, setGalpones] = useState<Option[]>([]);
   const [razas, setRazas] = useState<Option[]>([]);

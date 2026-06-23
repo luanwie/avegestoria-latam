@@ -19,11 +19,9 @@ export interface NavLink {
   href: string;
 }
 
+// Profesional users: simplified sidebar
 export const hubLinks: NavLink[] = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/es/dashboard" },
-  { label: "Galpones", icon: Warehouse, href: "/es/granja/galpones" },
-  { label: "Lotes", icon: Egg, href: "/es/granja/lotes" },
-  { label: "Razas", icon: Dna, href: "/es/granja/razas" },
   { label: "Producción", icon: ClipboardList, href: "/es/granja/produccion" },
   { label: "Finanzas", icon: DollarSign, href: "/es/granja/finanzas" },
   { label: "Informes", icon: FileText, href: "/es/granja/informes" },
@@ -31,10 +29,12 @@ export const hubLinks: NavLink[] = [
   { label: "Perfil", icon: UserCircle, href: "/es/perfil" },
 ];
 
-// Plan-specific sidebar links
+// Esencial users: same but no Chat IA
 export const esencialLinks: NavLink[] = [
   { label: "Dashboard", icon: LayoutDashboard, href: "/es/dashboard" },
+  { label: "Producción", icon: ClipboardList, href: "/es/granja/produccion" },
   { label: "Finanzas", icon: DollarSign, href: "/es/granja/finanzas" },
+  { label: "Informes", icon: FileText, href: "/es/granja/informes" },
   { label: "Perfil", icon: UserCircle, href: "/es/perfil" },
 ];
 
