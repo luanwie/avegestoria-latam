@@ -275,11 +275,10 @@ function Dobra5_Autoridade() {
     <section className="py-20 sm:py-28">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <ScrollReveal>
-          <div className="bg-rose-900/10 border border-rose-700/20 rounded-xl p-5 mb-10 text-center">
+          <div className="bg-brand-green/20 border border-brand-green/30 rounded-xl p-5 mb-10 text-center">
             <p className="text-sm text-stone-300">
-              <span className="text-rose-400 font-bold">AveGestoria no es para todos.</span>
-              {" "}Si tienes menos de 2.000 gallinas y estás empezando, tenemos un plan para ti. Si ya operas entre 5.000 y 50.000 aves, tenemos el plan perfecto. Y si ya pasaste las 50.000, tenemos lista de espera para el plan industrial.{" "}
-              <span className="text-stone-200 font-semibold">Hay un AveGestoria para cada etapa de tu granja.</span>
+              <span className="text-brand-gold font-bold">Hay un AveGestoria para cada etapa de tu granja.</span>
+              {" "}Si estás empezando con menos de 5.000 gallinas, tenemos el plan Esencial. Si ya operas entre 5.000 y 50.000 aves, el plan Profesional es para ti. Y si ya pasaste las 50.000, tenemos lista de espera para el plan industrial Profesional+.
             </p>
           </div>
         </ScrollReveal>
@@ -399,47 +398,7 @@ function Dobra6_Bonus() {
   );
 }
 
-/* ─── Dobra 7: Quem Sou Eu ─── */
-function Dobra7_Historia() {
-  return (
-    <section className="py-20 sm:py-28">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <ScrollReveal>
-          <h2 className="text-2xl sm:text-3xl font-bold text-stone-100 text-center mb-8">
-            Esto empezó con un cuaderno manchado de grasa.
-          </h2>
-        </ScrollReveal>
-        <ScrollReveal delay={0.1}>
-          <div className="space-y-4 text-sm text-stone-400 leading-relaxed">
-            <p>
-              Nuestra granja familiar tiene más de 40 años. Mi padre, como tantos productores, usaba cuaderno y lápiz para todo. Cada mañana caminaba al galpón, anotaba huevos, muertas, ración. A fin de mes, calculadora y 3 horas — y muchas veces el resultado era frustración.
-            </p>
-            <p>
-              Muchas veces había perdido. Y siempre lo descubría tarde.
-            </p>
-            <p>
-              Cuando entré a la universidad me obsesioné con una pregunta: <span className="text-stone-200 font-medium">¿por qué un productor que sabe TODO de gallinas no sabe si está ganando dinero?</span> La respuesta: porque nadie le dio la herramienta correcta.
-            </p>
-            <p>
-              Construí AveGestoria para nuestra granja. El resultado: en 5 años escalamos de 20.000 a 80.000 gallinas con control total sobre cada lote, cada gasto y cada decisión. Ahora quiero ayudarte a ti a hacer lo mismo.
-            </p>
-          </div>
-        </ScrollReveal>
-        <div className="text-center mt-8">
-          <Link
-            href="/es/prices"
-            onClick={() => trackCTA("Dobra7 CTA")}
-            className="inline-flex items-center gap-1.5 bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-6 py-3 rounded-xl text-sm transition-all"
-          >
-            Conocer el sistema →
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Dobra 8: Reforço Autoridade ─── */
+/* ─── Dobra 7: Reforço Autoridade (era Dobra 8) ─── */
 function Dobra8_Refuerzo() {
   const facts = [
     { icon: TrendingDown, label: "Ración = 65-87% de tus costos", detail: "Cada gramo de ración que no se convierte en huevo es dinero perdido. El sistema calcula tu FCR automáticamente." },
@@ -741,9 +700,8 @@ function Nav({ onCta }: { onCta?: () => void }) {
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-bg-primary/80 backdrop-blur-2xl border-b border-white/5">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-        <Link href="/es" className="flex items-center gap-2">
-          <img src="/icon.png" alt="" className="h-8 w-8" />
-          <span className="text-base font-bold text-brand-gold tracking-tight">AveGestoria</span>
+        <Link href="/es" className="flex items-center">
+          <img src="/logo-icon-name.png" alt="AveGestoria" className="h-8 sm:h-9" />
         </Link>
         <div className="hidden md:flex items-center gap-6 text-sm">
           <a href="#roadmap" className="text-stone-400 hover:text-brand-gold transition-colors">Cómo funciona</a>
@@ -819,7 +777,6 @@ export default function LandingPage() {
         <Dobra4_ProvaSocial />
         <Dobra5_Autoridade />
         <Dobra6_Bonus />
-        <Dobra7_Historia />
         <Dobra8_Refuerzo />
         <Dobra9_Garantia />
         <div id="pricing"><Dobra10_Oferta /></div>
