@@ -8,7 +8,8 @@ import Link from "next/link";
 import DashboardShell from "@/components/dashboard/DashboardShell";
 import PeriodFilter from "@/components/dashboard/PeriodFilter";
 import { KPISkeleton } from "@/components/ui/Skeleton";
-import { TrendingUp, TrendingDown, Egg, Skull, AlertTriangle, ChevronRight } from "lucide-react";
+import { ProduccionQuiz } from "@/components/dashboard/ProduccionQuiz";
+import { TrendingUp, TrendingDown, Egg, Skull, AlertTriangle, ChevronRight, ClipboardList } from "lucide-react";
 
 interface LoteKpi {
   id: string; nombre: string; galpon: string; raza: string;
@@ -52,6 +53,7 @@ export default function DashboardPage() {
   const searchParams = useSearchParams();
   const plan = (session?.user as { plan?: string } | undefined)?.plan || "none";
   const isEsencial = plan === "esencial" || plan === "none";
+  const [quizOpen, setQuizOpen] = useState(false);
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const periodo = searchParams.get("periodo") || "30";
@@ -114,9 +116,9 @@ export default function DashboardPage() {
           {/* Quick actions */}
           <div className="flex gap-2">
             {!isEsencial && (
-              <Link href="/es/granja/produccion" className="text-[12px] bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] px-4 py-2 rounded-lg text-stone-400 hover:text-stone-200 transition-colors">
-                + Producción
-              </Link>
+              <button onClick={() => setQuizOpen(true)} className="text-[12px] bg-brand-gold/10 hover:bg-brand-gold/15 border border-brand-gold/20 px-4 py-2 rounded-lg text-brand-gold hover:text-brand-gold-light transition-colors flex items-center gap-1.5">
+                <ClipboardList className="w-3.5 h-3.5" /> Registrar Producción
+              </button>
             )}
             <Link href="/es/granja/finanzas/ventas" className="text-[12px] bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] px-4 py-2 rounded-lg text-stone-400 hover:text-stone-200 transition-colors">
               + Venta
@@ -251,6 +253,8 @@ export default function DashboardPage() {
           )}
         </motion.div>
       ) : null}
+
+      <ProduccionQuiz open={quizOpen} onClose={() => setQuizOpen(false)} onSuccess={fetchData} />
     </DashboardShell>
   );
 }
