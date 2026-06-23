@@ -24,13 +24,12 @@ export default function RegisterPage() {
     setError("");
 
     if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres");
+      setError("La contrase\u00f1a debe tener al menos 6 caracteres");
       setLoading(false);
       return;
     }
 
     try {
-      // 1. Create account
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -38,27 +37,11 @@ export default function RegisterPage() {
       });
 
       const data = await res.json();
+      if (!res.ok) { setError(data.error || "Error al registrar"); setLoading(false); return; }
 
-      if (!res.ok) {
-        setError(data.error || "Error al registrar");
-        setLoading(false);
-        return;
-      }
+      const signInResult = await signIn("credentials", { email, password, redirect: false });
+      if (signInResult?.error) { router.push("/es/auth/login"); return; }
 
-      // 2. Sign in automatically
-      const signInResult = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-
-      if (signInResult?.error) {
-        // Redirect to login if auto-signin fails
-        router.push("/es/auth/login");
-        return;
-      }
-
-      // 3. Redirect to Stripe checkout with selected plan
       const checkoutRes = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,15 +49,10 @@ export default function RegisterPage() {
       });
 
       const checkout = await checkoutRes.json();
-
-      if (checkout.url) {
-        window.location.href = checkout.url;
-      } else {
-        setError("Error al crear el pago. Intenta de nuevo.");
-        setLoading(false);
-      }
+      if (checkout.url) { window.location.href = checkout.url; }
+      else { setError("Error al crear el pago. Intenta de nuevo."); setLoading(false); }
     } catch {
-      setError("Error de conexión. Intenta de nuevo.");
+      setError("Error de conexi\u00f3n. Intenta de nuevo.");
       setLoading(false);
     }
   }
@@ -82,101 +60,64 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-brand-green-deeper flex items-center justify-center px-4">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md"
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-sm"
       >
-        <div className="bg-brand-green/20 border border-brand-green/30 rounded-2xl p-8 backdrop-blur-sm">
+        <div className="glass-surface rounded-2xl p-8">
           <div className="text-center mb-8">
-            <Link href="/es" className="inline-flex items-center gap-2 mb-4">
-              <img src="/icon.png" alt="" className="h-10 w-10" />
-              <span className="text-lg font-bold text-brand-gold">AveGestoria</span>
+            <Link href="/es" className="inline-block mb-6">
+              <img src="/logo-icon-name.png" alt="AveGestoria" className="h-7 mx-auto" />
             </Link>
-            <h1 className="text-2xl font-bold text-stone-100 mt-4">
-              Crear tu cuenta
-            </h1>
+            <h1 className="text-xl font-semibold text-stone-100 tracking-tight">Crear tu cuenta</h1>
             <p className="text-sm text-stone-400 mt-1">
-              Para el plan <span className="text-brand-gold font-semibold capitalize">{plan}</span>
+              Para el plan <span className="text-brand-gold font-medium capitalize">{plan}</span>
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm text-stone-300 mb-1.5">
-                Nombre
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Tu nombre"
-                required
-                className="w-full bg-emerald-950/60 border border-emerald-700/40 rounded-xl px-4 py-3 text-sm text-stone-100 placeholder:text-stone-500 focus:outline-none focus:border-emerald-500 transition-colors"
-              />
+              <label className="block text-[13px] text-stone-400 mb-1.5">Nombre</label>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)}
+                placeholder="Tu nombre" required
+                className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-stone-100 placeholder:text-stone-600 focus:outline-none focus:border-brand-gold/30 focus:ring-1 focus:ring-brand-gold/10 transition-all" />
             </div>
-
             <div>
-              <label className="block text-sm text-stone-300 mb-1.5">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="tu@email.com"
-                required
-                className="w-full bg-emerald-950/60 border border-emerald-700/40 rounded-xl px-4 py-3 text-sm text-stone-100 placeholder:text-stone-500 focus:outline-none focus:border-emerald-500 transition-colors"
-              />
+              <label className="block text-[13px] text-stone-400 mb-1.5">Email</label>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                placeholder="tu@email.com" required
+                className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-stone-100 placeholder:text-stone-600 focus:outline-none focus:border-brand-gold/30 focus:ring-1 focus:ring-brand-gold/10 transition-all" />
             </div>
-
             <div>
-              <label className="block text-sm text-stone-300 mb-1.5">
-                Contraseña
-              </label>
+              <label className="block text-[13px] text-stone-400 mb-1.5">Contrase\u00f1a</label>
               <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Mínimo 6 caracteres"
-                  required
-                  minLength={6}
-                  className="w-full bg-emerald-950/60 border border-emerald-700/40 rounded-xl px-4 py-3 pr-10 text-sm text-stone-100 placeholder:text-stone-500 focus:outline-none focus:border-emerald-500 transition-colors"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-300"
-                >
+                <input type={showPassword ? "text" : "password"} value={password}
+                  onChange={(e) => setPassword(e.target.value)} placeholder="M\u00ednimo 6 caracteres" required minLength={6}
+                  className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 pr-10 text-sm text-stone-100 placeholder:text-stone-600 focus:outline-none focus:border-brand-gold/30 focus:ring-1 focus:ring-brand-gold/10 transition-all" />
+                <button type="button" onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-500 hover:text-stone-300 transition-colors">
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
-            {error && (
-              <p className="text-red-400 text-sm text-center">{error}</p>
-            )}
+            {error && <p className="text-red-400 text-[13px] text-center">{error}</p>}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-brand-gold hover:bg-brand-gold-light disabled:opacity-50 text-brand-green-deeper font-bold py-3 rounded-xl text-sm transition-all inline-flex items-center justify-center gap-2"
-            >
+            <button type="submit" disabled={loading}
+              className="w-full bg-brand-gold hover:bg-brand-gold-light disabled:opacity-50 text-brand-green-deeper font-semibold py-3 rounded-xl text-sm transition-all inline-flex items-center justify-center gap-2 active:scale-[0.98]">
               {loading ? (
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span className="w-4 h-4 border-2 border-brand-green-deeper/30 border-t-brand-green-deeper rounded-full animate-spin" />
               ) : (
-                <>
-                  <UserPlus className="w-4 h-4" />
-                  Crear cuenta
-                </>
+                <><UserPlus className="w-4 h-4" /> Crear cuenta</>
               )}
             </button>
           </form>
 
-          <p className="text-center text-sm text-stone-400 mt-6">
-            ¿Ya tienes cuenta?{" "}
-            <Link href="/es/auth/login" className="text-brand-gold hover:text-brand-gold-light font-medium">
-              Inicia sesión
+          <p className="text-center text-[13px] text-stone-500 mt-6">
+            \u00bfYa tienes cuenta?{" "}
+            <Link href="/es/auth/login" className="text-brand-gold hover:text-brand-gold-light font-medium transition-colors">
+              Inicia sesi\u00f3n
             </Link>
           </p>
         </div>
