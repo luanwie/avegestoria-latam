@@ -1,54 +1,40 @@
 "use client";
 
-import { useEffect } from "react";
-import { motion, useMotionValue, useSpring } from "motion/react";
-
+/**
+ * Cinematic atmosphere layer.
+ * Ambient blobs + subtle vignette lighting.
+ * No mouse-follow gimmicks — just still, atmospheric depth.
+ */
 export function AgroGreenTheme() {
-  return (
-    <>
-      <AnimatedBlobs />
-      <MouseGlow />
-    </>
-  );
+  return <AmbientLighting />;
 }
 
-function AnimatedBlobs() {
+function AmbientLighting() {
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-      <div className="animated-blob absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full bg-brand-green/15 blur-[120px]" />
-      <div className="animated-blob absolute -bottom-40 -right-40 h-[500px] w-[500px] rounded-full bg-brand-gold/6 blur-[100px]" style={{ animationDelay: "-10s" }} />
-      <div className="animated-blob absolute top-1/2 left-1/2 h-[400px] w-[400px] rounded-full bg-brand-green/10 blur-[100px]" style={{ animationDelay: "-5s" }} />
-    </div>
-  );
-}
+      {/* Top-center warm glow — like barn lights at dawn */}
+      <div
+        className="ambient-blob absolute -top-[20%] left-1/2 -translate-x-1/2 h-[70vh] w-[80vw] rounded-full opacity-[0.06] blur-[180px]"
+        style={{ background: "radial-gradient(circle, oklch(0.74 0.18 85), transparent)" }}
+      />
 
-function MouseGlow() {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 60, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 60, damping: 20 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
-
-  return (
-    <motion.div className="pointer-events-none fixed inset-0 z-0">
-      <motion.div
-        className="absolute h-[400px] w-[400px] rounded-full opacity-[0.06] blur-[80px]"
+      {/* Right side green depth */}
+      <div
+        className="ambient-blob absolute top-[10%] -right-[15%] h-[60vh] w-[50vw] rounded-full opacity-[0.04] blur-[160px]"
         style={{
-          background: "radial-gradient(circle, #eba61c, transparent)",
-          x: springX,
-          y: springY,
-          translateX: "-50%",
-          translateY: "-50%",
+          background: "radial-gradient(circle, oklch(0.25 0.04 155), transparent)",
+          animationDelay: "-8s",
         }}
       />
-    </motion.div>
+
+      {/* Bottom-left deep green */}
+      <div
+        className="ambient-blob absolute -bottom-[15%] -left-[10%] h-[50vh] w-[50vw] rounded-full opacity-[0.05] blur-[140px]"
+        style={{
+          background: "radial-gradient(circle, oklch(0.18 0.03 158), transparent)",
+          animationDelay: "-18s",
+        }}
+      />
+    </div>
   );
 }

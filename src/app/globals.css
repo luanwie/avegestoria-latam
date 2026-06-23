@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-primary: #1a1d21;
-  --color-bg-secondary: #22262b;
-  --color-bg-tertiary: #2a2f35;
+  --color-bg-primary: #0a150f;
+  --color-bg-secondary: #0f1d14;
+  --color-bg-tertiary: #15281c;
 
   --color-brand-green: #0f3d20;
   --color-brand-green-light: #185e32;
-  --color-brand-green-dark: #0a2814;
+  --color-brand-green-dark: #071a0d;
   --color-brand-green-deeper: #05120a;
 
   --color-brand-gold: #eba61c;
   --color-brand-gold-light: #f0b830;
   --color-brand-gold-dark: #c48a0f;
 
-  --color-emerald-950: #0a2814;
+  --color-emerald-950: #05120a;
   --color-emerald-900: #0f3d20;
   --color-emerald-800: #185e32;
   --color-emerald-700: #218a45;
@@ -22,9 +22,9 @@
   --color-emerald-500: #34d96b;
   --color-emerald-400: #6ee7a0;
 
-  --color-slate-900: #1a1d21;
-  --color-slate-800: #22262b;
-  --color-slate-700: #2a2f35;
+  --color-slate-900: #0a150f;
+  --color-slate-800: #0f1d14;
+  --color-slate-700: #15281c;
 
   --color-stone-100: #f5f5f4;
   --color-stone-200: #e7e5e4;
@@ -37,71 +37,73 @@
   --color-warm: #eba61c;
   --color-danger: #ef4444;
 
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: "Geist", "Geist Fallback", system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+}
+
+/* ── Grain texture ── */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  opacity: 0.15;
 }
 
 body {
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
-  background: var(--color-bg-primary);
+  font-family: var(--font-sans);
+  background: var(--color-brand-green-deeper);
+  letter-spacing: -0.01em;
 }
 
-/* ── Dynamic background layers ── */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    /* Main dark slate base */
-    radial-gradient(ellipse at 30% 20%, rgba(15, 61, 32, 0.25) 0%, transparent 60%),
-    radial-gradient(ellipse at 70% 60%, rgba(15, 61, 32, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 90%, rgba(235, 166, 28, 0.04) 0%, transparent 50%);
-}
-
-/* ── Subtle grid pattern ── */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-}
-
-/* ── Gold glow on hover ── */
+/* ── Gold glow ── */
 .gold-glow {
-  transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.2s ease;
+  transition: box-shadow 0.5s ease, border-color 0.5s ease, transform 0.3s ease;
 }
 .gold-glow:hover {
-  border-color: rgba(235, 166, 28, 0.35);
-  box-shadow: 0 0 40px rgba(235, 166, 28, 0.08), 0 0 80px rgba(235, 166, 28, 0.04);
+  border-color: rgba(235, 166, 28, 0.3);
+  box-shadow: 0 0 60px rgba(235, 166, 28, 0.06), 0 0 120px rgba(235, 166, 28, 0.03);
   transform: translateY(-1px);
 }
 
-/* ── Card styles ── */
+/* ── Card base ── */
 .card {
   background: var(--color-bg-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 0.75rem;
 }
 
-/* Mobile-first text */
-html { font-size: 10px; }
-@media (min-width: 640px) { html { font-size: 14px; } }
-@media (min-width: 1024px) { html { font-size: 16px; } }
-
-/* Scroll hint */
-.overflow-x-auto {
-  background: linear-gradient(to right, transparent 0%, transparent calc(100% - 2rem), rgba(26, 29, 33, 0.9) 100%);
-  background-attachment: local, scroll;
+/* ── Glass surface (shared by dashboard + landing) ── */
+.glass-surface {
+  background: rgba(15, 29, 20, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
-.overflow-x-auto::-webkit-scrollbar { height: 4px; }
-.overflow-x-auto::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 2px; }
-.overflow-x-auto::-webkit-scrollbar-thumb { background: rgba(235,166,28,0.3); border-radius: 2px; }
 
+.glass-surface-strong {
+  background: rgba(10, 21, 15, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ── Animated blob ── */
+@keyframes blobMove {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -50px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+::-webkit-scrollbar-thumb { background: rgba(235,166,28,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(235,166,28,0.35); }
+
+/* ── Selection ── */
+::selection { background: rgba(235, 166, 28, 0.2); color: #f5f5f4; }
+
+/* ── Particle canvas ── */
 #particle-canvas {
   position: fixed;
   top: 0; left: 0;
@@ -110,12 +112,6 @@ html { font-size: 10px; }
   z-index: 0;
 }
 
-/* ── Animated gradient blob ── */
-@keyframes blobMove {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
-}
-.animated-blob {
-  animation: blobMove 20s ease-in-out infinite;
-}
+/* ── Mobile base ── */
+html { font-size: 14px; }
+@media (min-width: 640px) { html { font-size: 16px; } }
