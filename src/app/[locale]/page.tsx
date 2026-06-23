@@ -14,9 +14,9 @@ function Dobra1_Hero({ isTouch }: { isTouch: boolean }) {
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
       {/* Farm background image */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-[0.08]"
+        className="absolute inset-0 bg-cover bg-center opacity-[0.10]"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1626387345637-36d06a5b3cf2?w=1200&q=60')",
+          backgroundImage: "url('https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=1200&q=60')",
         }}
       />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-green/30 via-brand-green-deeper to-brand-green-deeper" />

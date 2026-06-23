@@ -1,10 +1,34 @@
 import { getPostBySlug, getAllSlugs } from "@/content/blog/posts";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Calendar, ArrowLeft } from "lucide-react";
+import { Calendar, ArrowLeft, MessageCircle } from "lucide-react";
+import type { Metadata } from "next";
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+  if (!post) return {};
+
+  return {
+    title: `${post.title} | AveGestoria Blog`,
+    description: post.description,
+    keywords: post.keywords,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: "article",
+      publishedTime: post.date,
+      url: `https://avegestoria.vercel.app/es/blog/${post.slug}`,
+    },
+  };
 }
 
 export default async function BlogPostPage({
@@ -69,53 +93,78 @@ export default async function BlogPostPage({
         </div>
       </nav>
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
-        <article>
-          {/* Header */}
-          <div className="mb-10">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-[10px] bg-brand-gold/15 text-brand-gold px-2.5 py-0.5 rounded-full border border-brand-gold/20 font-medium">
-                {post.category}
-              </span>
-              <span className="text-[10px] text-stone-500 flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
-                {new Date(post.date).toLocaleDateString("es-ES", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div className="flex flex-col lg:flex-row gap-10">
+          {/* Article content */}
+          <article className="flex-1 min-w-0">
+            {/* Header */}
+            <div className="mb-10">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-[10px] bg-brand-gold/15 text-brand-gold px-2.5 py-0.5 rounded-full border border-brand-gold/20 font-medium">
+                  {post.category}
+                </span>
+                <span className="text-[10px] text-stone-500 flex items-center gap-1">
+                  <Calendar className="w-3 h-3" />
+                  {new Date(post.date).toLocaleDateString("es-ES", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-stone-100 leading-tight mb-4">
+                {post.title}
+              </h1>
+              <p className="text-sm text-stone-400 leading-relaxed">
+                {post.description}
+              </p>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-stone-100 leading-tight mb-4">
-              {post.title}
-            </h1>
-            <p className="text-sm text-stone-400 leading-relaxed">
-              {post.description}
-            </p>
-          </div>
 
-          {/* Content */}
-          <div
-            className="prose-custom"
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-          />
+            {/* Content */}
+            <div
+              className="prose-custom"
+              dangerouslySetInnerHTML={{ __html: htmlContent }}
+            />
+          </article>
 
-          {/* CTA */}
-          <div className="mt-12 bg-brand-green/20 border border-brand-green/30 rounded-xl p-6 text-center">
-            <p className="text-sm text-stone-300 font-medium mb-2">
-              ¿Listo para tener control total de tu granja?
-            </p>
-            <p className="text-xs text-stone-500 mb-4">
-              Prueba AveGestoria 7 días gratis. Sin compromiso.
-            </p>
-            <Link
-              href="/es/prices"
-              className="inline-flex items-center gap-1.5 bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-6 py-2.5 rounded-xl text-sm transition-all"
-            >
-              Comenzar 7 días gratis →
-            </Link>
-          </div>
-        </article>
+          {/* Sidebar CTA */}
+          <aside className="lg:w-72 shrink-0">
+            <div className="lg:sticky lg:top-24 space-y-4">
+              <div className="bg-brand-green/20 border border-brand-green/30 rounded-xl p-5">
+                <p className="text-sm font-bold text-stone-100 mb-2">
+                  ¿Listo para tener control total?
+                </p>
+                <p className="text-xs text-stone-400 leading-relaxed mb-4">
+                  Prueba AveGestoria 7 días gratis. Sin compromiso. Sin tarjeta por adelantado.
+                </p>
+                <Link
+                  href="/es/prices"
+                  className="block text-center bg-brand-gold hover:bg-brand-gold-light text-brand-green-deeper font-bold px-4 py-2.5 rounded-xl text-xs transition-all"
+                >
+                  Comenzar gratis →
+                </Link>
+              </div>
+
+              <div className="bg-brand-gold/10 border border-brand-gold/20 rounded-xl p-5">
+                <p className="text-xs text-stone-300 font-medium mb-1 flex items-center gap-1.5">
+                  <MessageCircle className="w-3.5 h-3.5 text-brand-gold" />
+                  ¿Prefieres hablar?
+                </p>
+                <p className="text-[10px] text-stone-500 mb-3">
+                  Escríbeme por WhatsApp. Te respondo personalmente.
+                </p>
+                <a
+                  href="https://wa.me/5551993612092"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-center border border-emerald-600/30 hover:bg-emerald-800/20 text-emerald-400 font-medium px-4 py-2 rounded-xl text-xs transition-all"
+                >
+                  WhatsApp → +55 51 99361-2092
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
       </main>
     </div>
   );
