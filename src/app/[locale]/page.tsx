@@ -265,8 +265,8 @@ function Dobra5_Autoridade() {
           <div className="bg-rose-900/10 border border-rose-700/20 rounded-xl p-5 mb-10 text-center">
             <p className="text-sm text-stone-300">
               <span className="text-rose-400 font-bold">AveGestoria no es para todos.</span>
-              {" "}Si tienes menos de 2.000 gallinas o ya usas un ERP complejo, probablemente no te sirva. Pero si operas entre 5.000 y 50.000 aves y todavía usas papel...{" "}
-              <span className="text-stone-200 font-semibold">esto cambia todo.</span>
+              {" "}Si tienes menos de 2.000 gallinas y estás empezando, tenemos un plan para ti. Si ya operas entre 5.000 y 50.000 aves, tenemos el plan perfecto. Y si ya pasaste las 50.000, tenemos lista de espera para el plan industrial.{" "}
+              <span className="text-stone-200 font-semibold">Hay un AveGestoria para cada etapa de tu granja.</span>
             </p>
           </div>
         </ScrollReveal>
@@ -276,10 +276,10 @@ function Dobra5_Autoridade() {
             <h2 className="text-xl sm:text-2xl font-bold text-stone-100 mb-4">¿Quién está detrás de esto?</h2>
             <div className="space-y-3 text-sm text-stone-400 leading-relaxed">
               <p>
-                Me llamo <span className="text-stone-200 font-semibold">Luan</span>. No soy vendedor de software. Crecí en una familia de productores rurales en el sur de Brasil. Sé lo que es ver a tu padre anotar la producción en un cuaderno manchado de grasa. Sé lo que es perder dinero sin saber por qué.
+                Me llamo <span className="text-stone-200 font-semibold">Luan</span>. Nuestra granja familiar tiene más de 40 años de historia en el sur de Brasil. Crecí viendo a mi padre anotar la producción en un cuaderno manchado de grasa. Y vi lo que pasaba cuando los números no cerraban a fin de mes.
               </p>
               <p>
-                Estudié administración, entendí de sistemas, y construí la herramienta que mi propia familia necesitaba. Hoy AveGestoria ya ayuda a productores en Colombia, Perú, Chile y Argentina.
+                Estudié administración, entendí de sistemas, y construí AveGestoria para resolver el problema que viví en carne propia. Gracias a este sistema, nuestra granja pasó de 20.000 a 80.000 gallinas en 5 años — con control real sobre cada lote, cada gasto y cada decisión. Hoy quiero ayudarte a hacer lo mismo.
               </p>
             </div>
           </ScrollReveal>
@@ -369,7 +369,7 @@ function Dobra7_Historia() {
         <ScrollReveal delay={0.1}>
           <div className="space-y-4 text-sm text-stone-400 leading-relaxed">
             <p>
-              Mi padre tuvo una granja de ponedoras por 23 años. Cada mañana, antes del café, caminaba 400 metros hasta el galpón. Cuaderno y lápiz en mano. Anotaba: fecha, huevos, muertas. A fin de mes, calculadora y 3 horas para saber si había ganado o perdido.
+              Nuestra granja familiar tiene más de 40 años. Mi padre, como tantos productores, usaba cuaderno y lápiz para todo. Cada mañana caminaba al galpón, anotaba huevos, muertas, ración. A fin de mes, calculadora y 3 horas — y muchas veces el resultado era frustración.
             </p>
             <p>
               Muchas veces había perdido. Y siempre lo descubría tarde.
@@ -378,7 +378,7 @@ function Dobra7_Historia() {
               Cuando entré a la universidad me obsesioné con una pregunta: <span className="text-stone-200 font-medium">¿por qué un productor que sabe TODO de gallinas no sabe si está ganando dinero?</span> La respuesta: porque nadie le dio la herramienta correcta.
             </p>
             <p>
-              Construí AveGestoria para mi padre. Pero él ya no está en la granja. Así que la abrí al mundo. Para que otros productores no pasen por lo mismo.
+              Construí AveGestoria para nuestra granja. El resultado: en 5 años escalamos de 20.000 a 80.000 gallinas con control total sobre cada lote, cada gasto y cada decisión. Ahora quiero ayudarte a ti a hacer lo mismo.
             </p>
           </div>
         </ScrollReveal>
@@ -506,8 +506,15 @@ function Dobra10_Oferta() {
       features: ["Todo del plan Esencial", "Chat IA (30 preguntas/sem)", "Consultoría WhatsApp", "Alertas inteligentes", "Predicciones"],
     },
     {
-      id: "profesional_plus", name: "Profesional+", price: "39.99", popular: false, waitlist: true,
-      features: ["Todo del plan Profesional", "Control de ración", "CRM de clientes", "Calculadora ROI", "WhatsApp empleados"],
+      id: "profesional_plus", name: "Profesional+", price: "39.99", desc: "Para industrias con +50k gallinas", popular: false, waitlist: true,
+      features: [
+        "Todo del plan Profesional",
+        "Control avanzado de ración y producción",
+        "CRM completo de clientes",
+        "Calculadora de inversión vs retorno",
+        "Tus empleados reportan por WhatsApp",
+        "Solo el dueño ve los datos",
+      ],
     },
   ];
 
@@ -540,6 +547,9 @@ function Dobra10_Oferta() {
                   </span>
                 )}
                 <h3 className="text-lg font-bold text-stone-100">{plan.name}</h3>
+                {"desc" in plan && (plan as { desc?: string }).desc && (
+                  <p className="text-xs text-stone-400 mt-0.5">{(plan as { desc?: string }).desc}</p>
+                )}
                 <div className="mt-2 mb-4">
                   <span className="text-3xl font-bold text-stone-100">${plan.price}</span>
                   <span className="text-stone-500 text-sm">/mes</span>
