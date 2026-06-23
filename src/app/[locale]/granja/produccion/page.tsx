@@ -72,6 +72,7 @@ export default function ProduccionListPage() {
   const [hasta, setHasta] = useState(searchParams.get("hasta") || "");
   const [loteId, setLoteId] = useState(searchParams.get("loteId") || "");
   const [activePeriod, setActivePeriod] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<null | "galpones" | "lotes" | "razas">(null);
 
   // Fetch lotes for filter
   useEffect(() => {
@@ -160,6 +161,51 @@ export default function ProduccionListPage() {
     });
   }
 
+  // ─── Inline CRUD: Galpones ───
+  const [galponesData, setGalponesData] = useState<Array<{ id: string; nombre: string }>>([]);
+  const [showGalponForm, setShowGalponForm] = useState(false);
+  const [editGalponId, setEditGalponId] = useState<string | null>(null);
+  const [galponInput, setGalponInput] = useState("");
+  const loadGalpones = () => fetch("/api/granja/galpones").then(r=>r.json()).then(d => setGalponesData(Array.isArray(d)?d:[]));
+  useEffect(() => { if (activeSection === "galpones" && galponesData.length === 0) loadGalpones(); }, [activeSection]);
+  const saveGalpon = async (e: React.FormEvent) => { e.preventDefault(); if (!galponInput.trim()) return; const url = editGalponId ? `/api/granja/galpones/${editGalponId}` : "/api/granja/galpones"; const method = editGalponId ? "PUT" : "POST"; await fetch(url, { method, headers: {"Content-Type":"application/json"}, body: JSON.stringify({ nombre: galponInput }) }); setGalponInput(""); setEditGalponId(null); setShowGalponForm(false); loadGalpones(); };
+  function renderGalponesInline() { return (
+    <div className="space-y-2">
+      <button onClick={() => { setShowGalponForm(!showGalponForm); setEditGalponId(null); setGalponInput(""); }} className="text-xs flex items-center gap-1 text-brand-gold hover:text-brand-gold-light transition-colors"><Plus className="w-3 h-3" /> Nuevo Galpón</button>
+      {showGalponForm && <form onSubmit={saveGalpon} className="flex gap-2"><input value={galponInput} onChange={e=>setGalponInput(e.target.value)} placeholder="Nombre del galpón" className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-brand-gold/30" /><button type="submit" className="text-xs bg-brand-gold/10 text-brand-gold px-3 py-2 rounded-lg border border-brand-gold/20">{editGalponId ? "Guardar" : "Crear"}</button></form>}
+      {galponesData.map(g => <div key={g.id} className="flex items-center justify-between text-xs text-stone-400 py-1 border-b border-white/[0.04] last:border-0"><span>{g.nombre}</span></div>)}
+    </div>
+  ); }
+
+  // ─── Inline CRUD: Lotes ───
+  const [lotesData, setLotesData] = useState<Array<{ id: string; nombre: string; raza?: string; cantidadAves: number; galpon?: string }>>([]);
+  const [showLoteForm, setShowLoteForm] = useState(false);
+  const [loteInput, setLoteInput] = useState({ nombre: "", cantidadAves: 0 });
+  const [galponOptions, setGalponOptions] = useState<Array<{id:string;nombre:string}>>([]);
+  const [razaOptions, setRazaOptions] = useState<Array<{id:string;nombre:string}>>([]);
+  const loadLotes = () => fetch("/api/granja/lotes").then(r=>r.json()).then(d => setLotesData(Array.isArray(d)?d.map((l:any)=>({id:l.id, nombre:l.nombre, raza:l.raza?.nombre, cantidadAves:l.cantidadAves, galpon:l.galpon?.nombre})):[]));
+  useEffect(() => { if (activeSection === "lotes" && lotesData.length === 0) { loadLotes(); fetch("/api/granja/galpones").then(r=>r.json()).then(d => setGalponOptions(Array.isArray(d)?d:[])); fetch("/api/granja/razas").then(r=>r.json()).then(d => setRazaOptions(Array.isArray(d)?d:[])); }}, [activeSection]);
+  function renderLotesInline() { return (
+    <div className="space-y-1 text-xs">
+      {lotesData.map(l => <div key={l.id} className="flex justify-between text-stone-400 py-1 border-b border-white/[0.04] last:border-0"><span>{l.nombre} <span className="text-stone-500">({l.raza})</span></span><span className="text-stone-300">{l.cantidadAves} aves</span></div>)}
+    </div>
+  ); }
+
+  // ─── Inline CRUD: Razas ───
+  const [razasData, setRazasData] = useState<Array<{ id: string; nombre: string }>>([]);
+  const [showRazaForm, setShowRazaForm] = useState(false);
+  const [razaInput, setRazaInput] = useState("");
+  const loadRazas = () => fetch("/api/granja/razas").then(r=>r.json()).then(d => setRazasData(Array.isArray(d)?d:[]));
+  useEffect(() => { if (activeSection === "razas" && razasData.length === 0) loadRazas(); }, [activeSection]);
+  const saveRaza = async (e: React.FormEvent) => { e.preventDefault(); if (!razaInput.trim()) return; await fetch("/api/granja/razas", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({ nombre: razaInput }) }); setRazaInput(""); setShowRazaForm(false); loadRazas(); };
+  function renderRazasInline() { return (
+    <div className="space-y-2">
+      <button onClick={() => setShowRazaForm(!showRazaForm)} className="text-xs flex items-center gap-1 text-brand-gold"><Plus className="w-3 h-3" /> Nueva Raza</button>
+      {showRazaForm && <form onSubmit={saveRaza} className="flex gap-2"><input value={razaInput} onChange={e=>setRazaInput(e.target.value)} placeholder="Nombre de la raza" className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-brand-gold/30" /><button type="submit" className="text-xs bg-brand-gold/10 text-brand-gold px-3 py-2 rounded-lg border border-brand-gold/20">Crear</button></form>}
+      {razasData.map(r => <div key={r.id} className="text-xs text-stone-400 py-1 border-b border-white/[0.04] last:border-0">{r.nombre}</div>)}
+    </div>
+  ); }
+
   return (
     <DashboardShell>
       {/* Header */}
@@ -176,23 +222,49 @@ export default function ProduccionListPage() {
         </Link>
       </div>
 
-      {/* Quick links: cadastros */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        {[
-          { label: "Galpones", icon: Warehouse, href: "/es/granja/galpones" },
-          { label: "Lotes", icon: Egg, href: "/es/granja/lotes" },
-          { label: "Razas", icon: Dna, href: "/es/granja/razas" },
-        ].map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="flex items-center justify-center gap-2 bg-brand-green/15 hover:bg-brand-green/25 border border-brand-green/30 rounded-lg px-3 py-2.5 text-xs text-stone-400 hover:text-stone-200 transition-all"
-          >
-            <item.icon className="w-3.5 h-3.5" />
-            {item.label}
-          </Link>
-        ))}
+      {/* Cadastros inline: Galpones, Lotes, Razas */}
+      <div className="flex gap-2 mb-4">
+        {(["galpones", "lotes", "razas"] as const).map((s) => {
+          const Icon = s === "galpones" ? Warehouse : s === "lotes" ? Egg : Dna;
+          return (
+            <button key={s} onClick={() => setActiveSection(activeSection === s ? null : s)}
+              className={`flex items-center gap-1.5 text-[12px] px-3 py-2 rounded-lg border transition-all ${
+                activeSection === s
+                  ? "bg-brand-gold/10 text-brand-gold border-brand-gold/20"
+                  : "bg-white/[0.03] text-stone-500 hover:text-stone-300 border-white/[0.06]"
+              }`}>
+              <Icon className="w-3.5 h-3.5" />
+              {s.charAt(0).toUpperCase() + s.slice(1)}
+            </button>
+          );
+        })}
       </div>
+
+      {/* Inline CRUD sections */}
+      {activeSection === "lotes" && (
+        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-medium text-stone-300">Lotes</h3>
+          </div>
+          {renderLotesInline()}
+        </div>
+      )}
+      {activeSection === "razas" && (
+        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-medium text-stone-300">Razas</h3>
+          </div>
+          {renderRazasInline()}
+        </div>
+      )}
+      {activeSection === "galpones" && (
+        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-medium text-stone-300">Galpones</h3>
+          </div>
+          {renderGalponesInline()}
+        </div>
+      )}
 
       {/* Summary Cards */}
       {totales && (
