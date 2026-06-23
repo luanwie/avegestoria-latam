@@ -31,6 +31,48 @@ export async function generateMetadata({
   };
 }
 
+function renderMarkdown(md: string): string {
+  let html = md;
+
+  // Code blocks first (preserve their content from further processing)
+  html = html.replace(/```([\s\S]*?)```/g,
+    '<pre class="bg-brand-green/20 border border-brand-green/30 rounded-lg p-4 my-4 overflow-x-auto text-xs text-stone-300 font-mono leading-relaxed">$1</pre>'
+  );
+
+  // ### headers (must run BEFORE ##)
+  html = html.replace(/^### (.+)$/gm,
+    '<h3 class="text-lg font-bold text-stone-100 mt-8 mb-3">$1</h3>'
+  );
+
+  // ## headers
+  html = html.replace(/^## (.+)$/gm,
+    '<h2 class="text-xl font-bold text-stone-100 mt-10 mb-4">$1</h2>'
+  );
+
+  // Bold
+  html = html.replace(/\*\*(.+?)\*\*/g,
+    '<strong class="text-stone-200 font-semibold">$1</strong>'
+  );
+
+  // Ordered lists
+  html = html.replace(/^(\d+)\. (.+)$/gm,
+    '<li class="ml-4 mb-1"><span class="text-stone-200 font-medium">$1.</span> $2</li>'
+  );
+
+  // Split by double newlines and wrap each block in <p>
+  const blocks = html.split(/\n\n+/);
+  html = blocks.map((block) => {
+    const trimmed = block.trim();
+    if (!trimmed) return "";
+    // Skip blocks that are already HTML tags (headers, lists, pre)
+    if (/^<(h[23]|pre|li|ul|ol)/.test(trimmed)) return trimmed;
+    // Wrap in <p>
+    return `<p class="text-sm text-stone-400 leading-relaxed mb-4">${trimmed}</p>`;
+  }).join("\n");
+
+  return html;
+}
+
 export default async function BlogPostPage({
   params,
 }: {
@@ -43,22 +85,7 @@ export default async function BlogPostPage({
     notFound();
   }
 
-  // Simple markdown-to-HTML conversion for the blog content
-  const htmlContent = post.content
-    // Headers
-    .replace(/^### (.+)$/gm, '<h3 class="text-lg font-bold text-stone-100 mt-8 mb-3">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 class="text-xl font-bold text-stone-100 mt-10 mb-4">$1</h2>')
-    // Bold
-    .replace(/\*\*(.+?)\*\*/g, '<strong class="text-stone-200 font-semibold">$1</strong>')
-    // Code blocks
-    .replace(/```([\s\S]*?)```/g, '<pre class="bg-brand-green/20 border border-brand-green/30 rounded-lg p-4 my-4 overflow-x-auto text-xs text-stone-300 font-mono leading-relaxed">$1</pre>')
-    // Ordered lists
-    .replace(/^(\d+)\. (.+)$/gm, '<li class="ml-4 mb-1"><span class="text-stone-200 font-medium">$1.</span> $2</li>')
-    // Paragraphs (double newlines)
-    .replace(/\n\n/g, '</p><p class="text-sm text-stone-400 leading-relaxed mb-4">')
-    // Wrap in paragraph
-    .replace(/^/, '<p class="text-sm text-stone-400 leading-relaxed mb-4">')
-    + '</p>';
+  const htmlContent = renderMarkdown(post.content);
 
   return (
     <div className="min-h-screen bg-bg-primary text-stone-100">
