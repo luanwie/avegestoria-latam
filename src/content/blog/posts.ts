@@ -10,6 +10,113 @@ export interface BlogPost {
 
 const posts: BlogPost[] = [
   {
+    slug: "bioseguridad-avicola-granja-ponedoras-influenza-aviar",
+    title: "Bioseguridad Avícola: ¿Está tu Granja Preparada para la Influenza Aviar?",
+    description:
+      "La influenza aviar ya sacrificó 600.000 gallinas en Chile en 2026. Aplica este checklist de bioseguridad y protege tu granja de ponedoras antes de que sea tarde.",
+    date: "2026-06-24",
+    category: "Sanidad",
+    keywords: [
+      "bioseguridad granja ponedoras",
+      "prevenir influenza aviar gallinas",
+      "protocolo bioseguridad avícola",
+      "checklist bioseguridad granja huevos",
+      "influenza aviar H5N1 ponedoras",
+      "control sanitario avícola",
+      "cómo proteger gallinas influenza",
+    ],
+    content: `¿Qué necesita tu granja para sobrevivir a un brote de influenza aviar? Un protocolo de bioseguridad que se aplique todos los días — no solo cuando hay noticias de brotes en otros países. En Chile, 600.000 gallinas ponedoras fueron sacrificadas en marzo de 2026 por un solo foco de H5N1. El 4% de la producción nacional eliminado en semanas. La diferencia entre ser la próxima granja afectada o salir ileso está en lo que hagas hoy.
+
+## ¿Por qué la bioseguridad no es opcional?
+
+La influenza aviar no llega sola: llega en las suelas de los zapatos, en los vehículos de los proveedores, en las aves silvestres que se posan en el techo del galpón. El virus H5N1 sobrevive hasta 5 días en materia fecal a temperatura ambiente y semanas en ambientes húmedos.
+
+En Latinoamérica, la mayoría de las granjas de ponedoras son operaciones medianas o pequeñas que no tienen un protocolo de bioseguridad escrito. Sin embargo, el costo de un brote es devastador:
+
+- **Sacrificio total del lote**: producción e ingresos caen a cero de inmediato
+- **Cuarentena de la zona**: no puedes mover aves, huevos ni insumos por semanas
+- **Tiempo de repoblación**: entre 18 y 24 semanas para volver a producir
+- **Costo estimado por lote de 10.000 aves**: entre $80.000 y $120.000 USD en pérdidas directas
+
+## Checklist de bioseguridad: 7 medidas que todo productor debe aplicar
+
+### 1. Control de acceso al galpón
+
+- Pediluvio con desinfectante en la entrada (renovar cada 48 horas)
+- Ropa y calzado exclusivos para el galpón — nunca entres con la misma ropa de la calle
+- Prohibir visitas externas sin overol, botas y mascarilla
+
+### 2. Control de vehículos
+
+- Rodoluvio o aspersión de desinfectante en la entrada de la granja
+- Los vehículos de alimento y huevo no deben ingresar al perímetro interno
+- Estacionamiento alejado al menos 50 metros del galpón
+
+### 3. Control de aves silvestres y plagas
+
+- Malla antipájaros en buen estado en todas las aberturas del galpón
+- Cebos para roedores revisados y repuestos semanalmente
+- Sin acumulación de granos o alimento fuera del silo
+
+### 4. Manejo de mortalidad
+
+- Recolectar aves muertas al menos 2 veces al día
+- Disponer los cadáveres en compostera, incineración o fosa con cal viva
+- Registrar cada mortalidad con fecha, lote y causa probable
+
+### 5. Monitoreo diario de signos clínicos
+
+Los primeros indicadores de influenza aviar aparecen rápido:
+
+- Mortalidad súbita sin causa aparente (más del 0.1% en 24 horas)
+- Cresta y barbillas moradas (cianosis)
+- Caída abrupta en producción de huevo (más del 5% en 24 horas)
+- Huevos deformes o sin cáscara
+
+### 6. Agua y alimento seguros
+
+- Clorar el agua de bebida (mantener 2 a 3 ppm de cloro libre)
+- Limpiar bebederos al menos cada 3 días
+- No usar agua de fuentes superficiales sin tratamiento previo
+
+### 7. Registro y trazabilidad
+
+- Registrar producción diaria por lote
+- Registrar consumo de ración por lote
+- Registrar cualquier evento sanitario con fecha y hora exacta
+
+## ¿Cuánto cuesta la bioseguridad versus un brote?
+
+Para un lote de 10.000 gallinas, la bioseguridad mensual cuesta entre $85 y $130 USD:
+
+- Pediluvio y desinfectante: $15-25 USD al mes
+- Overoles y botas exclusivas: $40-60 USD al mes
+- Mantenimiento de malla antipájaros: $20-30 USD al mes
+- Cloro para tratamiento de agua: $10-15 USD al mes
+
+En contraste, un solo brote elimina tu producción por 6 meses y te cuesta entre $80.000 y $120.000 USD en pérdidas directas. La bioseguridad cuesta menos del 0.1% de lo que pagarías por no tenerla.
+
+## El eslabón débil: el registro diario
+
+El protocolo de bioseguridad más completo falla si no se ejecuta consistentemente. El problema no es saber qué hacer — es hacerlo todos los días, sin excepción, y dejar registro.
+
+La mayoría de los productores no registran:
+
+- Cuántas aves murieron hoy y por qué
+- Si la producción de huevo bajó repentinamente en un lote
+- Si el consumo de ración se disparó o se desplomó
+
+Y esos son exactamente los primeros indicadores de un problema sanitario. Con AveGestoria registras en segundos la mortalidad, producción y consumo por lote desde el celular. Si un lote tiene una caída de postura mayor al 5% o la mortalidad se duplica en 24 horas, el sistema te envía una alerta inmediata. En bioseguridad, **detectar 24 horas antes puede ser la diferencia entre sacrificar 100 aves o sacrificar 10.000**.
+
+## La bioseguridad es más barata que el arrepentimiento
+
+No necesitas un galpón de última generación para aplicar bioseguridad. Necesitas disciplina y un sistema que te ayude a mantenerla. Las 600.000 gallinas sacrificadas en Chile no estaban en una granja improvisada: estaban en una operación comercial grande que probablemente tenía protocolos, pero falló la detección temprana.
+
+El virus no avisa. Llega hoy y mañana tienes mortalidad masiva. Tu única defensa es la prevención diaria y saber leer los números de tu granja antes de que sea demasiado tarde.
+
+Prueba AveGestoria 7 días gratis. Registra tu producción, mortalidad y consumo diario desde el galpón — y recibe alertas automáticas cuando algo se desvíe de lo normal. Porque en bioseguridad, la única sorpresa que quieres es ninguna.`,
+  },
+  {
     slug: "como-proteger-granja-caida-precio-huevo-estrategias",
     title: "¿Cómo Proteger tu Granja Cuando el Precio del Huevo se Desploma?",
     description:
