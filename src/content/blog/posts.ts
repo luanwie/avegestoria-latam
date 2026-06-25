@@ -10,6 +10,81 @@ export interface BlogPost {
 
 const posts: BlogPost[] = [
   {
+    slug: "como-reducir-costo-racion-gallinas-ponedoras",
+    title: "¿Cómo reducir el costo de ración sin bajar la postura?",
+    description:
+      "Aprende a reducir el costo de ración en gallinas ponedoras sin perder postura, usando registros diarios y decisiones nutricionales con datos.",
+    date: "2026-06-25",
+    category: "Nutrición",
+    keywords: [
+      "reducir costo de ración ponedoras",
+      "alimentación gallinas ponedoras rentable",
+      "costo alimento huevo comercial",
+      "cómo ahorrar alimento en gallinas",
+      "nutrición de ponedoras sin bajar postura",
+      "control consumo ración por lote",
+      "margen producción de huevos",
+    ],
+    content: `¿Cómo puedes reducir el costo de ración sin bajar la postura? La respuesta no es comprar el alimento más barato, sino medir consumo, producción y conversión alimentaria por lote antes de cambiar la fórmula. En gallinas ponedoras, la ración suele representar entre 65% y 75% del costo operativo, por eso un ahorro mal calculado puede destruir más margen del que promete.
+
+## ¿Por qué bajar la calidad de la ración puede salir caro?
+
+Cuando el maíz, la soya o los concentrados suben, muchos productores buscan una ración más económica. El problema es que una fórmula con menos energía, aminoácidos o calcio puede provocar tres efectos en cadena:
+
+1. Menor tasa de postura en 7 a 14 días.
+2. Huevos más pequeños o con cáscara débil.
+3. Mayor consumo voluntario porque el ave intenta compensar nutrientes faltantes.
+
+Ejemplo simple: si ahorras $0.03 USD por kilo de ración, pero el lote baja de 90% a 86% de postura, probablemente perdiste dinero. En un lote de 5.000 aves, esa caída de 4 puntos equivale a 200 huevos menos por día. A $0.10 USD por huevo, son $20 USD diarios de ingreso perdido.
+
+## ¿Qué datos debes revisar antes de cambiar alimento?
+
+Antes de negociar una nueva fórmula, revisa estos cinco indicadores por lote durante al menos 7 días:
+
+- **Consumo diario por ave:** gramos de ración por gallina por día.
+- **Tasa de postura:** huevos producidos ÷ aves vivas.
+- **Peso promedio del huevo:** no basta contar huevos; el tamaño afecta el ingreso.
+- **Mortalidad:** una caída de consumo puede ser nutrición, estrés o sanidad.
+- **FCR:** kilos de ración consumida ÷ kilos de huevo producidos.
+
+Si no tienes estos datos separados por lote, cualquier cambio nutricional será una apuesta. Con AveGestoria puedes registrar consumo, producción y mortalidad desde el celular, y ver si el FCR mejora o empeora después de modificar la ración.
+
+## ¿Cuándo conviene cambiar la fórmula de ración?
+
+Conviene cambiar cuando el ahorro por kilo supera el posible impacto en producción. La comparación debe hacerse con margen, no solo con precio de compra.
+
+Comparación rápida para un lote de 5.000 ponedoras:
+
+- Ración actual: $0.42 USD/kg, consumo de 115 g/ave/día, postura de 90%.
+- Ración barata: $0.39 USD/kg, consumo de 118 g/ave/día, postura de 86%.
+- Resultado probable: ahorras cerca de $13 USD/día en alimento, pero pierdes cerca de $20 USD/día en huevos.
+- Decisión: la ración barata cuesta menos, pero deja menos margen.
+
+La regla práctica es clara: si el cambio reduce postura, peso del huevo o calidad de cáscara, el ahorro debe ser demostrado con números diarios. No con la sensación de que el alimento “salió más barato”.
+
+## ¿Cómo reducir costos sin castigar la postura?
+
+Empieza por acciones de bajo riesgo antes de tocar la fórmula nutricional:
+
+1. **Controla desperdicio en comederos:** una pérdida de solo 3% en ración puede borrar el margen semanal.
+2. **Ajusta horarios de alimentación:** evita llenar comederos en horas de calor extremo.
+3. **Separa lotes por edad:** una gallina de 25 semanas no necesita el mismo manejo que una de 75 semanas.
+4. **Revisa granulometría:** alimento demasiado fino aumenta selección y desperdicio.
+5. **Mide agua:** baja ingesta de agua reduce consumo y postura antes de que el productor lo note.
+
+AveGestoria ayuda a detectar estas desviaciones porque compara consumo, postura y mortalidad por lote. Si el consumo sube sin que aumenten los huevos, el sistema deja visible el problema antes de que se convierta en pérdida mensual.
+
+## ¿Cuál es el mejor indicador para decidir?
+
+El mejor indicador no es el precio por kilo de ración. Es el **costo de alimento por docena de huevos vendibles**.
+
+Fórmula práctica: costo de alimento por docena = costo diario de ración ÷ docenas vendibles del día.
+
+Si este número baja y la calidad del huevo se mantiene, el cambio funcionó. Si baja el precio de la ración pero sube el costo por docena, el cambio fue malo.
+
+Prueba AveGestoria 7 días gratis y registra tus datos reales de consumo, postura y ventas. En una semana puedes saber qué lote convierte mejor la ración y dónde estás perdiendo dinero sin verlo.`,
+  },
+  {
     slug: "bioseguridad-avicola-granja-ponedoras-influenza-aviar",
     title: "Bioseguridad Avícola: ¿Está tu Granja Preparada para la Influenza Aviar?",
     description:
