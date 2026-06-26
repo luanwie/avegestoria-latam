@@ -10,6 +10,85 @@ export interface BlogPost {
 
 const posts: BlogPost[] = [
   {
+    slug: "como-tomar-decisiones-con-datos-reales-granja-ponedoras",
+    title: "¿Cómo Tomar Decisiones con Datos Reales en tu Granja de Huevo?",
+    description:
+      "Descubre qué KPIs necesitas monitorear a diario en tu granja de ponedoras, cómo interpretarlos y cuándo actuar. Deja de administrar por intuición y empieza a decidir con datos.",
+    date: "2026-06-26",
+    category: "Gestión",
+    keywords: [
+      "gestión granja ponedoras con datos",
+      "KPIs producción de huevo",
+      "cómo tomar decisiones en avicultura",
+      "indicadores granja de ponedoras",
+      "administración avícola profesional",
+      "software gestión granja huevos",
+      "monitoreo diario producción huevo",
+    ],
+    content: `Tomar decisiones con datos reales significa dejar de administrar por intuición y empezar a registrar, medir y comparar al menos cinco indicadores clave cada día: tasa de postura, consumo de ración, mortalidad, FCR y costo por docena. El productor que mide estos números puede detectar un problema 7 a 14 días antes que el que administra "por experiencia", y ese margen de anticipación puede valer miles de dólares.
+
+## ¿Por qué la intuición ya no alcanza?
+
+Los márgenes en la producción de huevo se han comprimido en toda Latinoamérica. En México, por ejemplo, el alimento balanceado representa más del 60% del costo total y cualquier variación en el precio del maíz o la soya golpea directamente la rentabilidad. En este contexto, administrar "como siempre se ha hecho" es una receta para perder dinero sin darse cuenta.
+
+El problema no es falta de experiencia. El problema es que el ojo humano no puede detectar:
+
+- Una caída de postura del 2% en tres días
+- Un aumento de consumo de 3 gramos por ave sin más huevos
+- Un lote que dejó de ser rentable hace dos semanas pero aún no lo sabes
+
+Estos cambios pequeños, acumulados en el tiempo, son los que separan una granja rentable de una que apenas sobrevive.
+
+## ¿Qué KPIs debe monitorear todo productor?
+
+No necesitas 20 indicadores. Con estos cinco, tienes el 90% del control de tu operación:
+
+### 1. Tasa de postura diaria por lote
+
+Fórmula: huevos producidos ÷ aves vivas × 100. Una gallina en pico de postura debería estar entre 90% y 96%. Una caída mayor al 3% en una semana sin causa aparente (cambio de ración, estrés térmico, enfermedad) exige investigar.
+
+### 2. Consumo de ración por ave por día
+
+Si el consumo sube sin que suba la postura, algo está mal: desperdicio en comederos, baja calidad de la ración, o las aves están gastando energía en combatir estrés por calor. Un aumento de solo 5 gramos por ave en un lote de 5.000 gallinas representa 25 kg más de ración al día — aproximadamente $10 USD diarios que desaparecen del margen.
+
+### 3. Mortalidad diaria
+
+La mortalidad normal en ponedoras está entre 0.06% y 0.12% semanal. Más del 0.5% en una semana sin explicación (accidente, depredador) es una bandera roja sanitaria. Registrar cada muerte con fecha, lote y causa probable te permite detectar patrones antes de que se conviertan en brotes.
+
+### 4. FCR semanal
+
+El FCR (kilos de ración ÷ kilos de huevo) es el indicador que resume la eficiencia de todo tu sistema. Un FCR de 2.0 a 2.2 es bueno para la mayoría de las genéticas comerciales. Si tu FCR está en 2.5 o más, estás gastando hasta 25% más alimento del necesario para la misma producción.
+
+### 5. Costo de producción por docena
+
+Este es el número que define si estás ganando o perdiendo. Suma todos tus costos del mes y divídelos entre las docenas vendibles producidas. Si este número está por encima del precio de venta, cada día que operas acumulas pérdidas. El productor que no conoce este número está volando a ciegas.
+
+## ¿Cómo construir una rutina diaria de registro?
+
+La disciplina del dato no requiere más de 10 minutos al día:
+
+1. Al iniciar la jornada: registra la mortalidad del día anterior y retira las aves
+2. Al recolectar: cuenta y anota huevos por lote, separando rotos y sucios
+3. Al alimentar: registra los kilos de ración servidos por lote
+4. Al final del día: revisa que los números tengan sentido (¿la postura bajó? ¿el consumo subió?)
+
+Con AveGestoria puedes hacer todo esto desde el celular en el mismo galpón. El sistema calcula automáticamente la tasa de postura, el FCR y el costo por docena, y te muestra en un dashboard qué lotes están funcionando y cuáles necesitan atención.
+
+## ¿Cuándo actuar según los números?
+
+Hay tres momentos claros donde los datos deben disparar una decisión:
+
+- **Postura cae más del 5% en 48 horas:** revisa sanidad, agua y ración de inmediato. Puede ser el primer síntoma de influenza aviar o Newcastle.
+- **FCR sube 0.3 puntos en dos semanas sin cambio de ración:** algo está desperdiciando alimento — comederos mal calibrados, granulometría inadecuada, o estrés térmico.
+- **Costo por docena supera el precio de venta dos semanas seguidas:** si el lote tiene más de 70 semanas, considera venderlo. Mantener un lote deficitario esperando que "el precio mejore" es la forma más común de perder capital de trabajo.
+
+## El dato que cambia todo
+
+El productor que mide consistentemente no depende de corazonadas. Sabe exactamente cuánto le cuesta producir cada huevo, qué lote le está dando margen y cuál se lo está comiendo. Esa claridad es lo que permite crecer sin miedo y reducir sin pánico cuando el mercado aprieta.
+
+Prueba AveGestoria 7 días gratis. Registra tus datos reales de producción, consumo y mortalidad durante una semana desde el celular, y obtén tu costo por docena calculado automáticamente. Porque en avicultura, la intuición puede esperar — tus números, no.`,
+  },
+  {
     slug: "como-reducir-costo-racion-gallinas-ponedoras",
     title: "¿Cómo reducir el costo de ración sin bajar la postura?",
     description:
